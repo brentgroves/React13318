@@ -21,3 +21,8 @@ export const populateUsersList = users => ({
   type: types.USERS_LIST,
   users
 })
+
+export const addDS13318 = (records) => ({
+  type: types.ADD_DS13318,
+  records
+})

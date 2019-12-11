@@ -1,5 +1,5 @@
 import * as types from '../constants/ActionTypes'
-import { messageReceived, populateUsersList } from '../actions'
+import { messageReceived, populateUsersList,addDS13318 } from '../actions'
 const io = require('socket.io-client');
 const feathers = require('@feathersjs/feathers');
 const socketio = require('@feathersjs/socketio-client');
@@ -42,8 +42,11 @@ console.log('connecting to Kep13318');
   });
   const Sproc13318Service = client.service('Sproc13318');
   Sproc13318Service.on('created', message => {
-    console.log('Received a Sproc13318 message', message);
-    dispatch(messageReceived(message.text, 'Sproc13313'));
+    console.log('Received a Sproc13318 message');
+    console.log(`message=> ${message.text[0].TransDate}`)
+  //  const p = JSON.parse(message.text.toString()); // payload is a buffer
+//    dispatch(messageReceived(message.text, 'Sproc13313'));
+//    dispatch(addDS13318(message.text));
   });
 
   /*
