@@ -1,8 +1,17 @@
+
 import * as types from '../constants/ActionTypes'
 import { messageReceived, populateUsersList,addDS13318 } from '../actions'
-const io = require('socket.io-client');
 const feathers = require('@feathersjs/feathers');
-const socketio = require('@feathersjs/socketio-client');
+const socketio = require('@feathersjs/socketio-client')
+const io = require('socket.io-client');
+const auth = require('@feathersjs/authentication-client');
+
+
+//const io = require('socket.io-client');
+//const feathers = require('@feathersjs/feathers');
+//const socketio = require('@feathersjs/socketio-client');
+//import feathers from '@feathersjs/client';
+//import client from '../feathers';
 /*
 const setupSocket = (dispatch, username) => {
   const socket = new WebSocket('ws://localhost:8989')
@@ -29,18 +38,45 @@ const setupSocket = (dispatch, username) => {
   return socket
 }
 */
-const setupSocket = (dispatch, username) => {
+
+/*
+const socket = io(config.BPGServicesURI);
+const client = feathers();
+
+client.configure(feathers.socketio(socket));
+client.configure(feathers.authentication({
+  storage: window.localStorage
+}));
+*/
+
+const setupSocket = async (dispatch, username) => {
   //const socket = new WebSocket('ws://localhost:8989')
+
   const socket = io('http://localhost:3030');
-  const client = feathers();
-  client.configure(socketio(socket));
+  const app = feathers();
+
+  // Setup the transport (Rest, Socket, etc.) here
+  app.configure(socketio(socket));
+
+  // Available options are listed in the "Options" section
+  app.configure(auth({
+    storageKey: 'auth'
+  }))
+
+
+await app.authenticate({
+"strategy": "local",
+"email": "user@someone.com",
+"password": "JesusLives1!"
+}).catch(error => console.log(error));
+
 console.log('connecting to Kep13318');
-  const Kep13318Service = client.service('Kep13318');
+  const Kep13318Service = app.service('Kep13318');
   Kep13318Service.on('created', message => {
     console.log('Received a Kep13318 message', message);
     dispatch(messageReceived(message.text, 'Kep13313'));
   });
-  const Sproc13318Service = client.service('Sproc13318');
+  const Sproc13318Service = app.service('Sproc13318');
   Sproc13318Service.on('created', message => {
     console.log('Received a Sproc13318 message');
     console.log(`message=> ${message.text[0].TransDate}`)
