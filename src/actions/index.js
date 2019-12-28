@@ -26,3 +26,9 @@ export const addDS13318 = (records) => ({
   type: types.ADD_DS13318,
   records
 })
+
+
+export const addApp = (app) => ({
+  type: types.ADD_APP,
+  app
+})
