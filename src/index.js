@@ -6,12 +6,14 @@ import createSagaMiddleware from 'redux-saga'
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import './index.css';
-import App from './App';
+import { App } from "./containers/App";
 import * as serviceWorker from './serviceWorker';
 import reducers from './reducers'
 import handleNewMessage from './sagas'
 import setupSocket from './sockets'
 import username from './utils/name'
+
+async function main(){
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -22,7 +24,7 @@ const store = createStore(
   )
 );
 
-const socket = setupSocket(store.dispatch, username)
+const socket = await setupSocket(store.dispatch, username)
 
 sagaMiddleware.run(handleNewMessage, { socket, username })
 
@@ -38,3 +40,7 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
+}
+
+main()

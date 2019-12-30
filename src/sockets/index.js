@@ -1,11 +1,10 @@
 
 import * as types from '../constants/ActionTypes'
-import { messageReceived, populateUsersList,addDS13318,addApp } from '../actions'
+import { messageReceived, populateUsersList,addDS13318,addApp,isAuthenticated,isAdmin,authUser } from '../actions'
 const feathers = require('@feathersjs/feathers');
 const socketio = require('@feathersjs/socketio-client')
 const io = require('socket.io-client');
 const auth = require('@feathersjs/authentication-client');
-
 
 //const io = require('socket.io-client');
 //const feathers = require('@feathersjs/feathers');
@@ -62,15 +61,25 @@ const setupSocket = async (dispatch, username) => {
   srv.configure(auth({
     storageKey: 'auth'
   }))
-
-
+/*
 await srv.authenticate({
 "strategy": "local",
 "email": "user@someone.com",
 "password": "JesusLives1!"
-}).catch(error => console.log(error));
+}).then(
+  dispatch(isAuthenticated(true))
+).catch(error => console.log(error));
+*/
 
-  dispatch(addApp(srv));
+// Returns the authenticated user
+//const { user } = await srv.get('authentication');
+//if(null!=user) dispatch(authUser(user));
+
+await srv.reAuthenticate().then(() => {
+  dispatch(isAuthenticated(true));
+}).catch(() => {
+  dispatch(isAuthenticated(false));
+});
 
 console.log('connecting to Kep13318');
   const Kep13318Service = srv.service('Kep13318');
@@ -88,6 +97,11 @@ console.log('connecting to Kep13318');
 //    dispatch(messageReceived(message.text, 'Sproc13313'));
 //    dispatch(addDS13318(message.text));
   });
+
+//await srv.logout().then(dispatch(isAuthenticated(false)));
+  dispatch(isAdmin(true));
+  dispatch(addApp(srv));
+
 
   /*
   socket.onopen = () => {

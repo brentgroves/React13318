@@ -32,3 +32,17 @@ export const addApp = (app) => ({
   type: types.ADD_APP,
   app
 })
+
+export const isAuthenticated = (isAuthenticated) => ({
+  type: types.IS_AUTHENTICATED,
+  isAuthenticated
+})
+
+export const authUser = (authUser) => ({
+  type: types.AUTH_USER,
+  authUser
+})
+export const isAdmin = (isAdmin) => ({
+  type: types.IS_ADMIN,
+  isAdmin
+})

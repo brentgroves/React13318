@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import PrivateRouteComponent from '../components/PrivateRoute'
 
-export const PrivateRoute = connect((state) => ({bpgservices:state.bpgservices}), {})(PrivateRouteComponent)
+export const PrivateRoute = connect((state) => ({isAuthenticated:state.bpgservices.app.authentication.authenticated}), {})(PrivateRouteComponent)
 
 /*
 

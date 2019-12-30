@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
 
-function PrivateRoute({ isAuthenticated,component: Component, ...rest }) {
+function AdminRoute({ isAdmin,component: Component, ...rest }) {
 //let message=bpgservices;
 //App will be null until feathers has a chance to authenticate
 /*
@@ -28,7 +28,7 @@ message.reAuthenticate().then(() => {
     <Route
       {...rest}
       render={props =>
-        isAuthenticated ? (
+        isAdmin ? (
           <Component {...props} />
         ) : (
           <Redirect to="/login" />
@@ -38,4 +38,4 @@ message.reAuthenticate().then(() => {
   );
 }
 
-export default PrivateRoute;
+export default AdminRoute;
