@@ -1,6 +1,6 @@
 
 import * as types from '../constants/ActionTypes'
-import { messageReceived, populateUsersList,addDS13318,addApp,isAuthenticated,isAdmin,authUser } from '../actions'
+import { messageReceived, populateUsersList,addDS13318,addApp,isAuthenticated,isAdmin,addUserName } from '../actions'
 const feathers = require('@feathersjs/feathers');
 const socketio = require('@feathersjs/socketio-client')
 const io = require('socket.io-client');
@@ -61,25 +61,34 @@ const setupSocket = async (dispatch, username) => {
   srv.configure(auth({
     storageKey: 'auth'
   }))
-/*
+
 await srv.authenticate({
 "strategy": "local",
-"email": "user@someone.com",
+"email": "bgroves@buschegroup.com",
 "password": "JesusLives1!"
-}).then(
-  dispatch(isAuthenticated(true))
-).catch(error => console.log(error));
-*/
+}).then(async (res) => {
+  // Logged in
+  //const { user } = await srv.get('authentication');
 
-// Returns the authenticated user
-//const { user } = await srv.get('authentication');
-//if(null!=user) dispatch(authUser(user));
+  console.log(res.user.isAdmin);
+  console.log(res.user.userName);
+  // Gets the authenticated accessToken (JWT)
+  //const { accessToken } = await app.get('authentication');
+//  dispatch(addUserName(res.user.userName))
+  dispatch(isAdmin(true));
+  dispatch(isAuthenticated(true));
+}).catch(e => {
+  // Show login page (potentially with `e.message`)
+  console.error('Authentication error', e);
+});
+/*
 
 await srv.reAuthenticate().then(() => {
   dispatch(isAuthenticated(true));
 }).catch(() => {
   dispatch(isAuthenticated(false));
 });
+*/
 
 console.log('connecting to Kep13318');
   const Kep13318Service = srv.service('Kep13318');

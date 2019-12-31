@@ -63,9 +63,72 @@ const SignIn = (props) => {
     <Avatar className={classes.avatar}>
   <LockOutlinedIcon />
 </Avatar>
+<Typography component="h1" variant="h5">
+  Sign in
+</Typography>
+<form className={classes.form} noValidate>
+  <TextField
+    variant="outlined"
+    margin="normal"
+    required
+    fullWidth
+    id="email"
+    label="Email Address"
+    name="email"
+    autoComplete="email"
+    autoFocus
+  />
+  <TextField
+    variant="outlined"
+    margin="normal"
+    required
+    fullWidth
+    name="password"
+    label="Password"
+    type="password"
+    id="password"
+    autoComplete="current-password"
+  />
+  <FormControlLabel
+    control={<Checkbox value="remember" color="primary" />}
+    label="Remember me"
+  />
+  <Button
+    type="submit"
+    fullWidth
+    variant="contained"
+    color="primary"
+    className={classes.submit}
+//    onClick={() => alert('hello')}
+    onClick={() => props.dispatch('hello')}
+//    onClick={() => {
+  //    props.dispatch('user1');
 
+//    dispatch(addUserName(res.user.name))
+      //alert('hello');
+//      console.log(app);
+      /*
+      app.authenticate({
+      "strategy": "local",
+      "email": "sgroves@buschegroup.com",
+      "password": "JesusLives1!",
+      "userName": "Steven",
+      "isAdmin": false,
+      "roles": [ "Quality" ]
+      }).then((res) => {
+        console.log(res);
+      }).catch(e => {
+        // Show login page (potentially with `e.message`)
+        console.error('Authentication error', e);
+      });
+*/
+//    }}
+  >
+    Sign In
+  </Button>
+  </form>
 </div>
-    </Container>
+</Container>
   )
 }
 
