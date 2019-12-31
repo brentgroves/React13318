@@ -16,7 +16,6 @@ import Container from '@material-ui/core/Container';
 import AppBar from '@material-ui/core/AppBar';
 const feathers = require('@feathersjs/feathers');
 
-
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -49,8 +48,134 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-//   await srv.authenticate().catch(error => console.log(error));
+const SignIn = (props) => {
+  let input
+  const classes = useStyles();
 
+  return (
+    <section id="new-message">
+    <Container component="main" maxWidth="xs">
+    <CssBaseline />
+    <div className={classes.paper}>
+    <Avatar className={classes.avatar}>
+  <LockOutlinedIcon />
+</Avatar>
+<Typography component="h1" variant="h5">
+  Sign in
+</Typography>
+<form className={classes.form} noValidate>
+  <TextField
+    variant="outlined"
+    margin="normal"
+    required
+    fullWidth
+    id="email"
+    label="Email Address"
+    name="email"
+    autoComplete="email"
+    autoFocus
+  />
+  <TextField
+    variant="outlined"
+    margin="normal"
+    required
+    fullWidth
+    name="password"
+    label="Password"
+    type="password"
+    id="password"
+    autoComplete="current-password"
+  />
+  <FormControlLabel
+    control={<Checkbox value="remember" color="primary" />}
+    label="Remember me"
+  />
+  <Button
+    type="button"
+    fullWidth
+    variant="contained"
+    color="primary"
+    className={classes.submit}
+//    onClick={() => alert('hello')}
+  //  onClick={() => props.dispatch('hello')}
+  onClick={(e) => {
+    props.srv.authenticate({
+    "strategy": "local",
+    "email": "bgroves@buschegroup.com",
+    "password": "JesusLives1!"
+    }).then((res) => {
+    props.dispatch(res.user.userName);
+  }).catch(e => {
+    // Show login page (potentially with `e.message`)
+    console.error('Authentication error', e);
+  });
+
+}}>
+    Sign In
+  </Button>
+  </form>
+</div>
+</Container>
+
+      <input
+        onKeyPress={(e) => {
+          props.dispatch('user1')
+      }}
+      />
+       <button
+        onClick={(e) => {
+          props.dispatch('user2')
+      }}>
+      test
+      </button>
+       <button
+        onClick={(e) => {
+          props.srv.service('Kep13318').create({
+      text: "test",
+    }).catch((e) => {
+      // Show login page (potentially with `e.message`)
+      props.dispatch('logged out')
+
+      alert('Authentication error');
+    });
+      }}>
+      Kep13318
+      </button>
+      <button
+       onClick={(e) => {
+         props.srv.logout();
+         alert(props.srv.logout);
+     }}>
+     logout
+     </button>
+
+      <button
+       onClick={(e) => {
+         props.srv.authenticate({
+         "strategy": "local",
+         "email": "bgroves@buschegroup.com",
+         "password": "JesusLives1!"
+         }).then((res) => {
+         props.dispatch(res.user.userName);
+       }).catch(e => {
+         // Show login page (potentially with `e.message`)
+         console.error('Authentication error', e);
+       });
+
+    }}>
+    login
+    </button>
+
+      <h1>userName: {props.userName}</h1>
+    </section>
+  )
+}
+
+
+
+
+//   await srv.authenticate().catch(error => console.log(error));
+/*
 const SignIn = (props) => {
   let input
   const classes = useStyles();
@@ -107,6 +232,7 @@ const SignIn = (props) => {
 //    dispatch(addUserName(res.user.name))
       //alert('hello');
 //      console.log(app);
+*/
       /*
       app.authenticate({
       "strategy": "local",
@@ -123,6 +249,8 @@ const SignIn = (props) => {
       });
 */
 //    }}
+
+/*
   >
     Sign In
   </Button>
@@ -132,7 +260,7 @@ const SignIn = (props) => {
   )
 }
 
-
+*/
 
 
 export default SignIn

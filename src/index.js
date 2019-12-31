@@ -7,6 +7,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import './index.css';
 import { App } from "./containers/App";
+//import App from "./App";
 import * as serviceWorker from './serviceWorker';
 import reducers from './reducers'
 import handleNewMessage from './sagas'
@@ -23,6 +24,7 @@ const store = createStore(
       applyMiddleware(sagaMiddleware)
   )
 );
+
 
 const socket = await setupSocket(store.dispatch, username)
 

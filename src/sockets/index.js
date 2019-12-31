@@ -81,6 +81,7 @@ await srv.authenticate({
   // Show login page (potentially with `e.message`)
   console.error('Authentication error', e);
 });
+
 /*
 
 await srv.reAuthenticate().then(() => {

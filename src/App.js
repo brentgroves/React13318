@@ -7,6 +7,9 @@ import { PrivateRoute } from './containers/PrivateRoute'
 
 
 const App = () => (
+  /*
+  <SignIn/>
+  */
   <Router>
   <div>
     <ul>
