@@ -1,4 +1,6 @@
-import React from 'react';
+//https://hackernoon.com/react-form-validation-using-react-hooks-5859c32280ca
+//https://redux-form.com/6.5.0/examples/material-ui/
+import React, {Component} from 'react';
 import PropTypes from 'prop-types'
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -14,7 +16,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import AppBar from '@material-ui/core/AppBar';
-const feathers = require('@feathersjs/feathers');
+//const feathers = require('@feathersjs/feathers');
+import { useForm } from 'react-hook-form'
 
 function Copyright() {
   return (
@@ -48,9 +51,18 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-const SignIn = (props) => {
-  let input
+
+//https://medium.com/hackernoon/learn-react-hooks-by-building-an-auth-based-to-do-app-c2d143928b0b
+const SignIn = ({userName,srv,updateUserName,isAuthenticated,isAdmin}) => {
+
   const classes = useStyles();
+  const { register, handleSubmit } = useForm()
+  const onSubmit = data => console.log(data)  
+
+  function handleClickOpen() {
+    setSubmitionCompleted(false);
+    setOpen(true);
+  }
 
   return (
     <section id="new-message">
@@ -63,12 +75,13 @@ const SignIn = (props) => {
 <Typography component="h1" variant="h5">
   Sign in
 </Typography>
-<form className={classes.form} noValidate>
+    <form className={classes.form} noValidate>
   <TextField
     variant="outlined"
     margin="normal"
     required
     fullWidth
+    inputRef={register({ required: true, maxlength: 20 })}
     id="email"
     label="Email Address"
     name="email"
@@ -91,7 +104,7 @@ const SignIn = (props) => {
     label="Remember me"
   />
   <Button
-    type="button"
+    type="submit"
     fullWidth
     variant="contained"
     color="primary"
@@ -99,12 +112,15 @@ const SignIn = (props) => {
 //    onClick={() => alert('hello')}
   //  onClick={() => props.dispatch('hello')}
   onClick={(e) => {
-    props.srv.authenticate({
+    srv.authenticate({
     "strategy": "local",
-    "email": "bgroves@buschegroup.com",
+    "email": "user4@buschegroup.com",
     "password": "JesusLives1!"
     }).then((res) => {
-    props.dispatch(res.user.userName);
+    updateUserName(res.user.userName);
+    isAdmin(res.user.isAdmin);
+    isAuthenticated(true);
+
   }).catch(e => {
     // Show login page (potentially with `e.message`)
     console.error('Authentication error', e);
@@ -119,22 +135,22 @@ const SignIn = (props) => {
 
       <input
         onKeyPress={(e) => {
-          props.dispatch('user1')
+          updateUserName('user1')
       }}
       />
        <button
         onClick={(e) => {
-          props.dispatch('user2')
+          updateUserName('user2')
       }}>
       test
       </button>
        <button
         onClick={(e) => {
-          props.srv.service('Kep13318').create({
+          srv.service('Kep13318').create({
       text: "test",
     }).catch((e) => {
       // Show login page (potentially with `e.message`)
-      props.dispatch('logged out')
+      updateUserName('logged out')
 
       alert('Authentication error');
     });
@@ -143,20 +159,20 @@ const SignIn = (props) => {
       </button>
       <button
        onClick={(e) => {
-         props.srv.logout();
-         alert(props.srv.logout);
+         srv.logout();
+         //alert(srv.logout);
      }}>
      logout
      </button>
 
       <button
        onClick={(e) => {
-         props.srv.authenticate({
+         srv.authenticate({
          "strategy": "local",
          "email": "bgroves@buschegroup.com",
          "password": "JesusLives1!"
          }).then((res) => {
-         props.dispatch(res.user.userName);
+         updateUserName(res.user.userName);
        }).catch(e => {
          // Show login page (potentially with `e.message`)
          console.error('Authentication error', e);
@@ -166,10 +182,11 @@ const SignIn = (props) => {
     login
     </button>
 
-      <h1>userName: {props.userName}</h1>
+      <h1>userName: {userName}</h1>
     </section>
   )
 }
+
 
 
 

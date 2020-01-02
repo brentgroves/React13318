@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types'
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,8 +12,6 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import AppBar from '@material-ui/core/AppBar';
-const feathers = require('@feathersjs/feathers');
 
 
 function Copyright() {
@@ -43,25 +40,25 @@ const useStyles = makeStyles(theme => ({
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(3),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
 }));
-//   await srv.authenticate().catch(error => console.log(error));
 
+function SignUp() {
+  const classes = useStyles();
 
-const SignUp = ({isAdmin,isAuthenticated}) => {
-  if (isAdmin && isAuthenticated){
-      return (<h1>Is Admin and authenticated</h1>)
-
-  }else {
-    return (<h1>Is not admin or not authenticated</h1>)
-  }
-//  const classes = useStyles();
+  return (
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+      <h1>hello</h1>
+      </div>
+    </Container>
+)
 }
-
 
 
 

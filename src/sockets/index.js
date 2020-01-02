@@ -1,6 +1,6 @@
 
 import * as types from '../constants/ActionTypes'
-import { messageReceived, populateUsersList,addDS13318,addApp,isAuthenticated,isAdmin,addUserName } from '../actions'
+import { messageReceived, populateUsersList,addDS13318,addApp,isAuthenticated,isAdmin,updateUserName } from '../actions'
 const feathers = require('@feathersjs/feathers');
 const socketio = require('@feathersjs/socketio-client')
 const io = require('socket.io-client');
@@ -61,10 +61,36 @@ const setupSocket = async (dispatch, username) => {
   srv.configure(auth({
     storageKey: 'auth'
   }))
+/*
+  await srv.service('users')
+    .create({
+      "email": "user4@buschegroup.com",
+      "password": "JesusLives1!",
+      "userName": "Brent",
+      "isAdmin": true,
+      "roles": [ "Admin", "Manager", "Quality"]
+
+
+  }).then(async (res) => {
+    // Logged in
+    //const { user } = await srv.get('authentication');
+console.log('created user!')
+//    console.log(res.user.isAdmin);
+  //  console.log(res.user.userName);
+    // Gets the authenticated accessToken (JWT)
+    //const { accessToken } = await app.get('authentication');
+  //  dispatch(addUserName(res.user.userName))
+  //  dispatch(isAdmin(true));
+  //  dispatch(isAuthenticated(true));
+  }).catch(e => {
+    // Show login page (potentially with `e.message`)
+    console.error('Authentication error', e);
+  });
+*/
 
 await srv.authenticate({
 "strategy": "local",
-"email": "bgroves@buschegroup.com",
+"email": "user4@buschegroup.com",
 "password": "JesusLives1!"
 }).then(async (res) => {
   // Logged in
@@ -75,7 +101,8 @@ await srv.authenticate({
   // Gets the authenticated accessToken (JWT)
   //const { accessToken } = await app.get('authentication');
 //  dispatch(addUserName(res.user.userName))
-  dispatch(isAdmin(true));
+  dispatch(isAdmin(res.user.isAdmin));
+  dispatch(updateUserName(res.user.userName))
   dispatch(isAuthenticated(true));
 }).catch(e => {
   // Show login page (potentially with `e.message`)
@@ -109,7 +136,7 @@ console.log('connecting to Kep13318');
   });
 
 //await srv.logout().then(dispatch(isAuthenticated(false)));
-  dispatch(isAdmin(true));
+ // dispatch(isAdmin(true));
   dispatch(addApp(srv));
 
 

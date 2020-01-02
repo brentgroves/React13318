@@ -38,8 +38,8 @@ export const isAuthenticated = (isAuthenticated) => ({
   isAuthenticated
 })
 
-export const addUserName = (userName) => ({
-  type: types.ADD_USERNAME,
+export const updateUserName = (userName) => ({
+  type: types.UPDATE_USERNAME,
   userName
 })
 export const isAdmin = (isAdmin) => ({

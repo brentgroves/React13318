@@ -26,7 +26,7 @@ const bpgservices = (state = {app:null,isAdmin:false,isAuthenticated:false,userN
          isAdmin: action.isAdmin
        })
     }
-    case 'ADD_USERNAME':
+    case 'UPDATE_USERNAME':
     {
       // Keep a reference to the service object created in sockets initialization code.
       return Object.assign({}, state, {
