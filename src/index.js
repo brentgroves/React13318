@@ -10,8 +10,8 @@ import { App } from "./containers/App";
 //import App from "./App";
 import * as serviceWorker from './serviceWorker';
 import reducers from './reducers'
-import handleNewMessage from './sagas'
-import setupSocket from './sockets'
+import {handleKep13318,handleSignIn,handleDS13318} from './sagas'
+import setupServices from './services'
 import username from './utils/name'
 
 async function main(){
@@ -26,9 +26,10 @@ const store = createStore(
 );
 
 
-const socket = await setupSocket(store.dispatch, username)
+const services = await setupServices(store.dispatch)
 
-sagaMiddleware.run(handleNewMessage, { socket, username })
+//sagaMiddleware.run(handleNewMessage, { services, username })
+sagaMiddleware.run(handleKep13318, { services,store.dispatch })
 
 ReactDOM.render(
   <Provider store={store}>

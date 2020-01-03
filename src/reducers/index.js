@@ -1,14 +1,12 @@
 import { combineReducers } from 'redux'
-import messages from './messages'
-import users from './users'
-import ds13318 from './ds13318'
-import bpgservices from './bpgservices'
+import User from './User'
+import DS13318 from './DS13318'
+import Kep13313 from './Kep13313'
 
-const chat = combineReducers({
-  messages,
-  users,
-  ds13318,
-  bpgservices
+const Services = combineReducers({
+  User,
+  DS13318,
+  Kep13313
 })
 
-export default chat
+export default Services

@@ -1,5 +1,5 @@
 //https://hackernoon.com/react-form-validation-using-react-hooks-5859c32280ca
-//https://redux-form.com/6.5.0/examples/material-ui/
+//https://hackernoon.com/react-form-validation-using-react-hooks-5859c32280ca
 import React, {Component} from 'react';
 import PropTypes from 'prop-types'
 import Avatar from '@material-ui/core/Avatar';
@@ -60,8 +60,8 @@ const SignIn = ({userName,srv,updateUserName,isAuthenticated,isAdmin}) => {
   const onSubmit = data => console.log(data)  
 
   function handleClickOpen() {
-    setSubmitionCompleted(false);
-    setOpen(true);
+    //setSubmitionCompleted(false);
+    //setOpen(true);
   }
 
   return (

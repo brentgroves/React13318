@@ -3,15 +3,8 @@ import * as types from '../constants/ActionTypes'
 
 
 
-const bpgservices = (state = {app:null,isAdmin:false,isAuthenticated:false,userName:''}, action) => {
+const User = (state = {isAdmin:false,isAuthenticated:false,firstName:''}, action) => {
   switch (action.type) {
-    case 'ADD_APP':
-    {
-      // Keep a reference to the service object created in sockets initialization code.
-      return Object.assign({}, state, {
-         app: action.app
-       })
-    }
     case 'IS_AUTHENTICATED':
     {
       // Keep a reference to the service object created in sockets initialization code.
@@ -26,11 +19,11 @@ const bpgservices = (state = {app:null,isAdmin:false,isAuthenticated:false,userN
          isAdmin: action.isAdmin
        })
     }
-    case 'UPDATE_USERNAME':
+    case 'UPDATE_FIRSTNAME':
     {
       // Keep a reference to the service object created in sockets initialization code.
       return Object.assign({}, state, {
-         userName: action.userName
+         firstName: action.firstName
        })
 
     }
@@ -39,4 +32,4 @@ const bpgservices = (state = {app:null,isAdmin:false,isAuthenticated:false,userN
   }
 }
 
-export default bpgservices
+export default services

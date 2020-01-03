@@ -1,6 +1,6 @@
 
 import * as types from '../constants/ActionTypes'
-import { messageReceived, populateUsersList,addDS13318,addApp,isAuthenticated,isAdmin,updateUserName } from '../actions'
+import { rcvDS13318, rcvKep13318, isAuthenticated,isAdmin,updateUserName } from '../actions'
 const feathers = require('@feathersjs/feathers');
 const socketio = require('@feathersjs/socketio-client')
 const io = require('socket.io-client');
@@ -48,7 +48,7 @@ client.configure(feathers.authentication({
 }));
 */
 
-const setupSocket = async (dispatch, username) => {
+const setupServices = async (dispatch) => {
   //const socket = new WebSocket('ws://localhost:8989')
 
   const socket = io('http://localhost:3030');
@@ -122,13 +122,13 @@ console.log('connecting to Kep13318');
   const Kep13318Service = srv.service('Kep13318');
   Kep13318Service.on('created', message => {
     console.log('Received a Kep13318 message', message);
-    dispatch(messageReceived(message.text, 'Kep13313'));
+    dispatch(rcvKep13318(message.text, 'Kep13313'));
   });
   const Sproc13318Service = srv.service('Sproc13318');
   Sproc13318Service.on('created', message => {
     console.log('Received a Sproc13318 message');
     console.log(`message=> ${message.text[0].TransDate}`)
-      dispatch(addDS13318(message.text));
+      dispatch(rcvDS13318(message.text));
 
   //  const p = JSON.parse(message.text.toString()); // payload is a buffer
 //    dispatch(messageReceived(message.text, 'Sproc13313'));
@@ -137,7 +137,7 @@ console.log('connecting to Kep13318');
 
 //await srv.logout().then(dispatch(isAuthenticated(false)));
  // dispatch(isAdmin(true));
-  dispatch(addApp(srv));
+  //dispatch(addApp(srv));
 
 
   /*
@@ -162,7 +162,7 @@ console.log('connecting to Kep13318');
   }
   */
 
-  return socket
+  return srv
 }
 
-export default setupSocket
+export default setupServices
