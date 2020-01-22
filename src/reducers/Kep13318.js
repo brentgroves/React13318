@@ -4,7 +4,7 @@ const Kep13318 = (state = [], action) => {
     case 'RCV_KEP13318':
     case 'ADD_KEP13318':
     {
-      return state.concat(action.records)
+      return state.concat(action.text)
     }
     default:
       return state

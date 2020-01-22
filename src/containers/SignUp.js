@@ -1,12 +1,12 @@
 import { connect } from 'react-redux'
 import SignUpComponent from '../components/SignUp'
-import { updateUserName } from '../actions'
+import { updateFirstName } from '../actions'
 
 //export const SignUp = connect(state => ({isAdmin:state.bpgservices.isAdmin,isAuthenticated:state.bpgservices.isAuthenticated}), {})(SignUpComponent)
 
 
 const mapDispatchToProps = dispatch => ({
-  updateUserName: (name) => dispatch(updateUserName(name))
+  updateUserName: (name) => dispatch(updateFirstName(name))
 });
 
 /*

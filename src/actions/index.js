@@ -2,33 +2,41 @@ import * as types from '../constants/ActionTypes'
 
 let nextDS13318Id = 0
 let nextKep13318Id = 0
-// NO REDUCER NEEDED
-export const Authenticate = (user) => ({
-  type: type.AUTHENTICATE,
-  email: signin.email,
-  password: signin.password
-})
-// NO REDUCER NEEDED
-export const SignUp = (signup) => ({
-  type: type.SIGNUP,
-  email: signin.email,
-  password: signin.password
+
+export const setServices = (services) => ({
+  type: types.SET_SERVICES,
+  services: services
 })
 
-export const rcvDS13318 = (text) => ({
-  type: type.RCV_DS13318,
-  id: nextKep13318Id++,
-  text
+export const AuthenticateAsync = (user) => ({
+  type: types.AUTHENTICATE_ASYNC,
+  email: user.email,
+  password: user.password
 })
+
+
+// NO REDUCER NEEDED
+export const Authenticate = (user) => ({
+  type: types.AUTHENTICATE,
+  email: user.email,
+  password: user.password
+})
+// NO REDUCER NEEDED
+export const SignUp = (user) => ({
+  type: types.SIGNUP,
+  email: user.email,
+  password: user.password
+})
+
 
 /* add from UI is obviously not needed but is for testing */
 export const addKep13318 = (text) => ({
-  type: type.ADD_KEP13318,
+  type: types.ADD_KEP13318,
   id: nextKep13318Id++,
   text
 })
 export const rcvKep13318 = (text) => ({
-  type: type.RCV_KEP13318,
+  type: types.RCV_KEP13318,
   id: nextKep13318Id++,
   text
 })

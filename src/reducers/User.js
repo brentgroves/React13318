@@ -32,4 +32,4 @@ const User = (state = {isAdmin:false,isAuthenticated:false,firstName:''}, action
   }
 }
 
-export default services
+export default User

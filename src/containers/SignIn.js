@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import SignInComponent from '../components/SignIn'
-import { updateUserName,isAuthenticated,isAdmin } from '../actions'
+import { updateFirstName,isAuthenticated,isAdmin,AuthenticateAsync } from '../actions'
 /*
 const mapDispatchToProps = dispatch => ({
   updateUserName: (name) => dispatch(updateUserName(name)),
@@ -12,17 +12,17 @@ const mapDispatchToProps = dispatch => ({
 const mapDispatchToProps = dispatch => {
   return {
     // dispatching plain actions
-  updateUserName: (name) => dispatch(updateUserName(name)),
+  updateFirstName: (name) => dispatch(updateFirstName(name)),
   isAuthenticated: (authenticated) => dispatch(isAuthenticated(authenticated)),
-  isAdmin: (admin) => dispatch(isAdmin(admin))
+  isAdmin: (admin) => dispatch(isAdmin(admin)),
+  AuthenticateAsync: (user) => dispatch(AuthenticateAsync(user))
   }
 }
 
 function mapStateToProps(state) {
-  const { bpgservices } = state
-  return { 
-  	userName: bpgservices.userName,
-  	srv: bpgservices.app 
+  const { User } = state
+  return {
+  	firstName: User.FirstName,
   }
 }
 

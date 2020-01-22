@@ -10,39 +10,40 @@ import { App } from "./containers/App";
 //import App from "./App";
 import * as serviceWorker from './serviceWorker';
 import reducers from './reducers'
-import {handleKep13318,handleSignIn,handleDS13318} from './sagas'
+//import {handleKep13318,handleSignIn,handleDS13318} from './sagas'
+import rootSaga from './sagas'
 import setupServices from './services'
 import username from './utils/name'
 
 async function main(){
 
-const sagaMiddleware = createSagaMiddleware()
+  const sagaMiddleware = createSagaMiddleware()
 
-const store = createStore(
-  reducers,
-  composeWithDevTools(
-      applyMiddleware(sagaMiddleware)
+  const store = createStore(
+    reducers,
+    composeWithDevTools(
+        applyMiddleware(sagaMiddleware)
+    )
+  );
+
+
+  const services = await setupServices(store.dispatch)
+
+  //sagaMiddleware.run(handleNewMessage, { services, username })
+  sagaMiddleware.run(rootSaga)
+
+  ReactDOM.render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+    document.getElementById('root')
   )
-);
 
 
-const services = await setupServices(store.dispatch)
-
-//sagaMiddleware.run(handleNewMessage, { services, username })
-sagaMiddleware.run(handleKep13318, { services,store.dispatch })
-
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root')
-)
-
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+  // If you want your app to work offline and load faster, you can change
+  // unregister() to register() below. Note this comes with some pitfalls.
+  // Learn more about service workers: https://bit.ly/CRA-PWA
+  serviceWorker.unregister();
 
 }
 

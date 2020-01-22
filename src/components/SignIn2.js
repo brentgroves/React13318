@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 //https://medium.com/hackernoon/learn-react-hooks-by-building-an-auth-based-to-do-app-c2d143928b0b
-const SignIn = ({AuthenticateAsync,firstName,updateFirstName,isAuthenticated,isAdmin}) => {
+const SignIn = ({AuthenticateAsync,firstName,srv,updateFirstName,isAuthenticated,isAdmin}) => {
 
   const classes = useStyles();
   const { register, handleSubmit } = useForm()
@@ -112,7 +112,20 @@ const SignIn = ({AuthenticateAsync,firstName,updateFirstName,isAuthenticated,isA
 //    onClick={() => alert('hello')}
   //  onClick={() => props.dispatch('hello')}
   onClick={(e) => {
-    AuthenticateAsync({"email":"user4@buschegroup.com","password":"JesusLives1!"});
+    srv.authenticate({
+    "strategy": "local",
+    "email": "user4@buschegroup.com",
+    "password": "JesusLives1!"
+    }).then((res) => {
+    updateFirstName(res.user.userName);
+    isAdmin(res.user.isAdmin);
+    isAuthenticated(true);
+
+  }).catch(e => {
+    // Show login page (potentially with `e.message`)
+    console.error('Authentication error', e);
+  });
+
 }}>
     Sign In
   </Button>
@@ -120,6 +133,56 @@ const SignIn = ({AuthenticateAsync,firstName,updateFirstName,isAuthenticated,isA
 </div>
 </Container>
 
+      <input
+        onKeyPress={(e) => {
+          updateFirstName('user1')
+      }}
+      />
+       <button
+        onClick={(e) => {
+          updateFirstName('user2')
+      }}>
+      test
+      </button>
+       <button
+        onClick={(e) => {
+          srv.service('Kep13318').create({
+      text: "test",
+    }).catch((e) => {
+      // Show login page (potentially with `e.message`)
+      updateFirstName('logged out')
+
+      alert('Authentication error');
+    });
+      }}>
+      Kep13318
+      </button>
+      <button
+       onClick={(e) => {
+         srv.logout();
+         //alert(srv.logout);
+     }}>
+     logout
+     </button>
+
+      <button
+       onClick={(e) => {
+         srv.authenticate({
+         "strategy": "local",
+         "email": "user4@buschegroup.com",
+         "password": "JesusLives1!"
+         }).then((res) => {
+         updateFirstName(res.user.userName);
+       }).catch(e => {
+         // Show login page (potentially with `e.message`)
+         console.error('Authentication error', e);
+       });
+
+    }}>
+    login
+    </button>
+
+      <h1>userName: {firstName}</h1>
     </section>
   )
 }

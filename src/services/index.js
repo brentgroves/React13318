@@ -1,6 +1,7 @@
 
 import * as types from '../constants/ActionTypes'
-import { rcvDS13318, rcvKep13318, isAuthenticated,isAdmin,updateUserName } from '../actions'
+import { rcvDS13318, rcvKep13318, isAuthenticated,isAdmin,updateFirstName,setServices } from '../actions'
+import {setSAGA} from '../sagas'
 const feathers = require('@feathersjs/feathers');
 const socketio = require('@feathersjs/socketio-client')
 const io = require('socket.io-client');
@@ -87,7 +88,7 @@ console.log('created user!')
     console.error('Authentication error', e);
   });
 */
-
+/*
 await srv.authenticate({
 "strategy": "local",
 "email": "user4@buschegroup.com",
@@ -102,13 +103,14 @@ await srv.authenticate({
   //const { accessToken } = await app.get('authentication');
 //  dispatch(addUserName(res.user.userName))
   dispatch(isAdmin(res.user.isAdmin));
-  dispatch(updateUserName(res.user.userName))
+  dispatch(updateFirstName(res.user.userName))
   dispatch(isAuthenticated(true));
+  dispatch(setServices(srv));
 }).catch(e => {
   // Show login page (potentially with `e.message`)
   console.error('Authentication error', e);
 });
-
+*/
 /*
 
 await srv.reAuthenticate().then(() => {
@@ -122,7 +124,7 @@ console.log('connecting to Kep13318');
   const Kep13318Service = srv.service('Kep13318');
   Kep13318Service.on('created', message => {
     console.log('Received a Kep13318 message', message);
-    dispatch(rcvKep13318(message.text, 'Kep13313'));
+    dispatch(rcvKep13318(message.text));
   });
   const Sproc13318Service = srv.service('Sproc13318');
   Sproc13318Service.on('created', message => {
@@ -134,6 +136,9 @@ console.log('connecting to Kep13318');
 //    dispatch(messageReceived(message.text, 'Sproc13313'));
 //    dispatch(addDS13318(message.text));
   });
+  setSAGA(srv,dispatch);
+  dispatch(setServices(srv));
+
 
 //await srv.logout().then(dispatch(isAuthenticated(false)));
  // dispatch(isAdmin(true));

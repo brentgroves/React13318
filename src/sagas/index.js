@@ -1,8 +1,10 @@
-import { takeEvery } from 'redux-saga/effects'
+import { put, takeEvery, all } from 'redux-saga/effects'
 import * as types from '../constants/ActionTypes'
 import { rcvDS13318, rcvKep13318, isAuthenticated,isAdmin,updateFirstName } from '../actions'
-
-
+var g_test = 'Global test'
+var g_services
+var g_dispatch
+/*
 export const handleReAuthenticate = function* handleReAuthenticate({services,dispatch}) {
   yield takeEvery(types.REAUTHENTICATE, (action) => {
     await services.reAuthenticate().then(() => {
@@ -14,32 +16,9 @@ export const handleReAuthenticate = function* handleReAuthenticate({services,dis
   })
 }
 
-export const handleAuthenticate = function* handleAuthenticate({services,dispatch}) {
-  yield takeEvery(types.AUTHENTICATE, (action) => {
-    await services.authenticate({
-    "strategy": "local",
-    "email": "user4@buschegroup.com",
-    "password": "JesusLives1!"
-    }).then(async (res) => {
-      // Logged in
-      //const { user } = await srv.get('authentication');
+*/
 
-      console.log(res.user.isAdmin);
-      console.log(res.user.firstName);
-      // Gets the authenticated accessToken (JWT)
-      //const { accessToken } = await app.get('authentication');
-    //  dispatch(addUserName(res.user.userName))
-      dispatch(isAdmin(res.user.isAdmin));
-      dispatch(updateFirstName(res.user.firstName))
-      dispatch(isAuthenticated(true));
-    }).catch(e => {
-      // Show login page (potentially with `e.message`)
-      console.error('Authentication error', e);
-    });
-    //send(JSON.stringify(action))
-  })
-}
-
+/*
 export const handleSignUp = function* handleSignUp({services,dispatch}) {
   yield takeEvery(types.SIGNUP, (action) => {
     action.author = params.username
@@ -68,9 +47,9 @@ export const handleSignUp = function* handleSignUp({services,dispatch}) {
     //send(JSON.stringify(action))
   })
 }
+*/
 
-
-
+/*
 // Testing only.
 export const handleKep13318 = function* handleKep13318({services,dispatch}) {
   yield takeEvery(types.ADD_KEP13318, (action) => {
@@ -85,6 +64,127 @@ export const handleKep13318 = function* handleKep13318({services,dispatch}) {
     });
   })
 }
+*/
+
+/*
+export const handleAuthenticate = function* handleAuthenticate({services,dispatch}) {
+  yield takeEvery(types.AUTHENTICATE, (action) => {
+    await services.authenticate({
+    "strategy": "local",
+    "email": "user4@buschegroup.com",
+    "password": "JesusLives1!"
+    }).then(async (res) => {
+      // Logged in
+      //const { user } = await srv.get('authentication');
+
+      console.log(res.user.isAdmin);
+      console.log(res.user.firstName);
+      // Gets the authenticated accessToken (JWT)
+      //const { accessToken } = await app.get('authentication');
+    //  dispatch(addUserName(res.user.userName))
+      dispatch(isAdmin(res.user.isAdmin));
+      dispatch(updateFirstName(res.user.firstName))
+      dispatch(isAuthenticated(true));
+    }).catch(e => {
+      // Show login page (potentially with `e.message`)
+      console.error('Authentication error', e);
+    });
+    //send(JSON.stringify(action))
+  })
+}
+*/
+function* handleAuthenticate(action) {
+  console.log(g_test);
+  yield g_services.authenticate({
+  "strategy": "local",
+  "email": "user4@buschegroup.com",
+  "password": "JesusLives1!"
+  }).then(async (res) => {
+    // Logged in
+    //const { user } = await srv.get('authentication');
+
+    console.log(res.user.isAdmin);
+    console.log(g_test);
+    g_dispatch(isAdmin(res.user.isAdmin))
+    //g_dispatch(updateFirstName(res.user.userName))
+
+    //console.log(res.user.firstName);
+    // Gets the authenticated accessToken (JWT)
+    //const { accessToken } = await app.get('authentication');
+    //g_dispatch(addUserName(res.user.userName))
+    //yield put(isAdmin(res.user.isAdmin));
+    //dispatch(updateFirstName(res.user.firstName))
+    //dispatch(isAuthenticated(true));
+  }).catch(e => {
+    // Show login page (potentially with `e.message`)
+    console.error('Authentication error', e);
+  });
+/*
+  yield action.services.authenticate({
+  "strategy": "local",
+  "email": "user4@buschegroup.com",
+  "password": "JesusLives1!"
+  }).then(async (res) => {
+    // Logged in
+    //const { user } = await srv.get('authentication');
+
+    console.log(res.user.isAdmin);
+    console.log(g_test);
+    //console.log(res.user.firstName);
+    // Gets the authenticated accessToken (JWT)
+    //const { accessToken } = await app.get('authentication');
+  //  dispatch(addUserName(res.user.userName))
+    //yield put(isAdmin(res.user.isAdmin));
+    //dispatch(updateFirstName(res.user.firstName))
+    //dispatch(isAuthenticated(true));
+  }).catch(e => {
+    // Show login page (potentially with `e.message`)
+    console.error('Authentication error', e);
+  });
+  */
+  //yield put({ type: 'INCREMENT' })
+}
+
+function* watchAuthenticateAsync() {
+  yield takeEvery(types.AUTHENTICATE_ASYNC, handleAuthenticate)
+}
+
+// notice how we now only export the rootSaga
+// single entry point to start all Sagas at once
+export default function* rootSaga() {
+    yield all([
+//    handleKep13318(),
+//    handleSignUp(),
+    watchAuthenticateAsync()
+//    handleReAuthenticate()
+  ])
+}
+export function setSAGA(services,dispatch) {
+  g_services = services
+  g_dispatch = dispatch
+}
+/*
+const delay = (ms) => new Promise(res => setTimeout(res, ms))
+
+function* incrementAsync() {
+  yield delay(1000)
+  yield put({ type: 'INCREMENT' })
+}
+
+function* watchIncrementAsync() {
+  yield takeEvery('INCREMENT_ASYNC', incrementAsync)
+}
+
+// notice how we now only export the rootSaga
+// single entry point to start all Sagas at once
+export default function* rootSaga() {
+  yield all([
+    helloSaga(),
+    watchIncrementAsync()
+  ])
+}
+
+*/
 
 
 /*
