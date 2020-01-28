@@ -17,7 +17,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import AppBar from '@material-ui/core/AppBar';
 //const feathers = require('@feathersjs/feathers');
-import { useForm } from 'react-hook-form'
+//import { useForm } from 'react-hook-form'
+import useForm from '../hooks/useForm'
 
 function Copyright() {
   return (
@@ -53,17 +54,17 @@ const useStyles = makeStyles(theme => ({
 }));
 
 //https://medium.com/hackernoon/learn-react-hooks-by-building-an-auth-based-to-do-app-c2d143928b0b
-const SignIn = ({AuthenticateAsync,firstName,srv,updateFirstName,isAuthenticated,isAdmin}) => {
+const SignIn = ({AuthenticateAsync,firstName,updateFirstName,isAuthenticated,isAdmin}) => {
 
   const classes = useStyles();
-  const { register, handleSubmit } = useForm()
-  const onSubmit = data => console.log(data)
-
-  function handleClickOpen() {
-    //setSubmitionCompleted(false);
-    //setOpen(true);
-  }
-
+  var values;
+//  const { register, handleSubmit } = useForm()
+const stateSchema = {
+  first_name: { value: 'Vincent', error: '' },
+  last_name: { value: '', error: '' },
+  tags: { value: '', error: '' },
+};
+//  const { first_name, last_name, tags } = values;
   return (
     <section id="new-message">
     <Container component="main" maxWidth="xs">
@@ -76,13 +77,12 @@ const SignIn = ({AuthenticateAsync,firstName,srv,updateFirstName,isAuthenticated
   Sign in
 </Typography>
     <form className={classes.form} noValidate>
+
   <TextField
     variant="outlined"
     margin="normal"
     required
     fullWidth
-    inputRef={register({ required: true, maxlength: 20 })}
-    id="email"
     label="Email Address"
     name="email"
     autoComplete="email"
@@ -112,20 +112,7 @@ const SignIn = ({AuthenticateAsync,firstName,srv,updateFirstName,isAuthenticated
 //    onClick={() => alert('hello')}
   //  onClick={() => props.dispatch('hello')}
   onClick={(e) => {
-    srv.authenticate({
-    "strategy": "local",
-    "email": "user4@buschegroup.com",
-    "password": "JesusLives1!"
-    }).then((res) => {
-    updateFirstName(res.user.userName);
-    isAdmin(res.user.isAdmin);
-    isAuthenticated(true);
-
-  }).catch(e => {
-    // Show login page (potentially with `e.message`)
-    console.error('Authentication error', e);
-  });
-
+    AuthenticateAsync({"email":"user4@buschegroup.com","password":"JesusLives1!"});
 }}>
     Sign In
   </Button>
@@ -133,46 +120,6 @@ const SignIn = ({AuthenticateAsync,firstName,srv,updateFirstName,isAuthenticated
 </div>
 </Container>
 
-      <input
-        onKeyPress={(e) => {
-          updateFirstName('user1')
-      }}
-      />
-       <button
-        onClick={(e) => {
-          updateFirstName('user2')
-      }}>
-      test
-      </button>
-       <button
-        onClick={(e) => {
-          srv.service('Kep13318').create({
-      text: "test",
-    }).catch((e) => {
-      // Show login page (potentially with `e.message`)
-      updateFirstName('logged out')
-
-      alert('Authentication error');
-    });
-      }}>
-      Kep13318
-      </button>
-      <button
-       onClick={(e) => {
-         srv.logout();
-         //alert(srv.logout);
-     }}>
-     logout
-     </button>
-
-      <button
-       onClick={(e) => {
-         AuthenticateAsync({"email":"user4@buschegroup.com","password":"JesusLives1!"});
-    }}>
-    login
-    </button>
-
-      <h1>userName: {firstName}</h1>
     </section>
   )
 }
