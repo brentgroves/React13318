@@ -1,6 +1,6 @@
 //https://hackernoon.com/react-form-validation-using-react-hooks-5859c32280ca
 //https://hackernoon.com/react-form-validation-using-react-hooks-5859c32280ca
-import React, {Component,useState} from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types'
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -17,11 +17,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import AppBar from '@material-ui/core/AppBar';
 //const feathers = require('@feathersjs/feathers');
-//import { useForm } from 'react-hook-form'
-import {
-  Formik, Form, Field, ErrorMessage,
-} from 'formik';
-import * as Yup from 'yup';
+import { useForm } from 'react-hook-form'
 
 function Copyright() {
   return (
@@ -35,8 +31,6 @@ function Copyright() {
     </Typography>
   );
 }
-
-
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -62,43 +56,26 @@ const useStyles = makeStyles(theme => ({
 const SignIn = ({AuthenticateSaga,LogoutSaga,authenticateError,firstName,srv,updateFirstName,isAuthenticated,isAdmin}) => {
 
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
-  const [isSubmitionCompleted, setSubmitionCompleted] = useState(false);
+  const { register, handleSubmit, watch, errors } = useForm()
+  const onSubmit = data => {
+    console.log(data)
+    console.log(errors)
 
-  return (
-  <Formik
-    initialValues={{ email: '', password: '' }}
-    onSubmit={(values, { setSubmitting }) => {
-     AuthenticateSaga({"email":"user4@buschegroup.com","password":"JesusLives1!"});
-     setSubmitting(false);
+if (errors.email){
+  console.log("error")
 
-     /*
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
-        setSubmitting(false);
-      }, 400);
-      */
-    }}
-    validationSchema={Yup.object().shape({
-      email: Yup.string()
-        .email()
-        .required('Required'),
-      password: Yup.string()
-          .required('Required')
-    })}
-  >
-    {(props) => {
-      const {
-        values,
-        touched,
-        errors,
-        dirty,
-        isSubmitting,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        handleReset,
-      } = props;
+}else{
+  console.log("no error")
+
+}
+  }
+
+  console.log(watch('email')) // watch input value by passing the name of it
+
+  function handleClickOpen() {
+    //setSubmitionCompleted(false);
+    //setOpen(true);
+  }
 
   return (
     <section id="new-message">
@@ -112,65 +89,96 @@ const SignIn = ({AuthenticateSaga,LogoutSaga,authenticateError,firstName,srv,upd
   Sign in
 </Typography>
     {/* "handleSubmit" will validate your inputs before invoking "onSubmit" */}
-    <form className={classes.form} onSubmit={handleSubmit}>
-  <TextField
-  variant="outlined"
-  margin="normal"
-  fullWidth
-    error={errors.email && touched.email}
-    label="email"
-    name="email"
-    value={values.email}
-    onChange={handleChange}
-    onBlur={handleBlur}
-    helperText={(errors.email && touched.email) && errors.email}
-    autoComplete="email"
-    autoFocus
-  />
+    <form className={classes.form}  onSubmit={handleSubmit(onSubmit)}>
   <TextField
     variant="outlined"
     margin="normal"
     fullWidth
-    error={errors.password && touched.password}
+    inputRef={register({ required: true, maxLength: 5 })}
+    id="email"
+    label="Email Address"
+    name="email"
+    autoComplete="email"
+    autoFocus
+
+//    error="true"
+  />
+  <TextField
+    variant="outlined"
+    margin="normal"
+    required
+    fullWidth
     name="password"
     label="Password"
-
-    value={values.password}
-    onChange={handleChange}
-    onBlur={handleBlur}
-    helperText={(errors.password && touched.password) && errors.password}
     type="password"
+    id="password"
     autoComplete="current-password"
   />
-  {/*
   <FormControlLabel
     control={<Checkbox value="remember" color="primary" />}
     label="Remember me"
   />
-*/}
   <Button
     type="submit"
     fullWidth
     variant="contained"
     color="primary"
     className={classes.submit}
-    disabled={isSubmitting}>
+
+//    onClick={() => alert('hello')}
+  //  onClick={() => props.dispatch('hello')}
+  onClick={(e) => {
+
+}}>
     Sign In
   </Button>
-{/*
-<Button type="submit" disabled={isSubmitting}>
-  Submit
-</Button>
-*/}
   </form>
 </div>
 </Container>
+{errors.email && 'First name is required'}
 
+      <input
+        onKeyPress={(e) => {
+          updateFirstName('user1')
+      }}
+      />
+       <button
+        onClick={(e) => {
+          updateFirstName('user2')
+      }}>
+      test
+      </button>
+       <button
+        onClick={(e) => {
+          srv.service('Kep13318').create({
+      text: "test",
+    }).catch((e) => {
+      // Show login page (potentially with `e.message`)
+      updateFirstName('logged out')
+
+      alert('Authentication error');
+    });
+      }}>
+      Kep13318
+      </button>
+      <button
+       onClick={(e) => {
+         LogoutSaga();
+         //alert(srv.logout);
+     }}>
+     logout
+     </button>
+
+      <button
+       onClick={(e) => {
+         AuthenticateSaga({"email":"user4@buschegroup.com","password":"JesusLives1!"});
+    }}>
+    login
+    </button>
+      <h1>authenticateError: {authenticateError}</h1>
+      <h1>userName: {firstName}</h1>
     </section>
   )
-}}
-</Formik>
-)
 }
 
 

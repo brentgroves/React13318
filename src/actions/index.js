@@ -3,24 +3,40 @@ import * as types from '../constants/ActionTypes'
 let nextDS13318Id = 0
 let nextKep13318Id = 0
 
-export const setServices = (services) => ({
-  type: types.SET_SERVICES,
-  services: services
-})
-
-export const AuthenticateAsync = (user) => ({
-  type: types.AUTHENTICATE_ASYNC,
+export const AuthenticateSaga = (user) => ({
+  type: types.AUTHENTICATE_SAGA,
   email: user.email,
   password: user.password
 })
 
+export const SetAuthenticateError = (error) => ({
+  type: types.SET_AUTHENTICATE_ERROR,
+  error: error
+})
+export const ClearAuthenticateError = () => ({
+  type: types.CLEAR_AUTHENTICATE_ERROR
+})
 
-// NO REDUCER NEEDED
 export const Authenticate = (user) => ({
   type: types.AUTHENTICATE,
   email: user.email,
   password: user.password
 })
+
+
+export const LogoutSaga = () => ({
+  type: types.LOGOUT_SAGA
+})
+
+
+export const setServices = (services) => ({
+  type: types.SET_SERVICES,
+  services: services
+})
+
+
+
+// NO REDUCER NEEDED
 // NO REDUCER NEEDED
 export const SignUp = (user) => ({
   type: types.SIGNUP,

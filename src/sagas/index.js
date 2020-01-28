@@ -1,6 +1,6 @@
 import { put, takeEvery, all } from 'redux-saga/effects'
 import * as types from '../constants/ActionTypes'
-import { rcvDS13318, rcvKep13318, isAuthenticated,isAdmin,updateFirstName } from '../actions'
+import { rcvDS13318, rcvKep13318, isAuthenticated,isAdmin,updateFirstName,SetAuthenticateError } from '../actions'
 var g_test = 'Global test'
 var g_services
 var g_dispatch
@@ -95,6 +95,19 @@ export const handleAuthenticate = function* handleAuthenticate({services,dispatc
 */
 function* handleAuthenticate(action) {
   console.log(g_test);
+  try{
+    var res = yield g_services.authenticate({
+    "strategy": "local",
+    "email": "user444@buschegroup.com",
+    "password": "JesusLives1!"
+    })
+    console.log(res.user.isAdmin);
+    g_dispatch(isAdmin(res.user.isAdmin));
+  } catch(err) {
+    g_dispatch(SetAuthenticateError(err.message))
+    console.log(err);
+  }
+/*
   yield g_services.authenticate({
   "strategy": "local",
   "email": "user4@buschegroup.com",
@@ -119,35 +132,21 @@ function* handleAuthenticate(action) {
     // Show login page (potentially with `e.message`)
     console.error('Authentication error', e);
   });
-/*
-  yield action.services.authenticate({
-  "strategy": "local",
-  "email": "user4@buschegroup.com",
-  "password": "JesusLives1!"
-  }).then(async (res) => {
-    // Logged in
-    //const { user } = await srv.get('authentication');
-
-    console.log(res.user.isAdmin);
-    console.log(g_test);
-    //console.log(res.user.firstName);
-    // Gets the authenticated accessToken (JWT)
-    //const { accessToken } = await app.get('authentication');
-  //  dispatch(addUserName(res.user.userName))
-    //yield put(isAdmin(res.user.isAdmin));
-    //dispatch(updateFirstName(res.user.firstName))
-    //dispatch(isAuthenticated(true));
-  }).catch(e => {
-    // Show login page (potentially with `e.message`)
-    console.error('Authentication error', e);
-  });
   */
-  //yield put({ type: 'INCREMENT' })
 }
 
-function* watchAuthenticateAsync() {
-  yield takeEvery(types.AUTHENTICATE_ASYNC, handleAuthenticate)
+  function* handleLogout(action) {
+    yield g_services.logout();
+  }
+
+function* watchAuthenticate() {
+  yield takeEvery(types.AUTHENTICATE_SAGA, handleAuthenticate)
 }
+
+function* watchLogout() {
+  yield takeEvery(types.LOGOUT_SAGA, handleLogout)
+}
+
 
 // notice how we now only export the rootSaga
 // single entry point to start all Sagas at once
@@ -155,7 +154,8 @@ export default function* rootSaga() {
     yield all([
 //    handleKep13318(),
 //    handleSignUp(),
-    watchAuthenticateAsync()
+    watchAuthenticate(),
+    watchLogout()
 //    handleReAuthenticate()
   ])
 }

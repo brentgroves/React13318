@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import SignInComponent from '../components/SignIn'
-import { updateFirstName,isAuthenticated,isAdmin,AuthenticateAsync } from '../actions'
+import { updateFirstName,isAuthenticated,isAdmin,AuthenticateSaga,LogoutSaga } from '../actions'
 /*
 const mapDispatchToProps = dispatch => ({
   updateUserName: (name) => dispatch(updateUserName(name)),
@@ -15,14 +15,16 @@ const mapDispatchToProps = dispatch => {
   updateFirstName: (name) => dispatch(updateFirstName(name)),
   isAuthenticated: (authenticated) => dispatch(isAuthenticated(authenticated)),
   isAdmin: (admin) => dispatch(isAdmin(admin)),
-  AuthenticateAsync: (user) => dispatch(AuthenticateAsync(user))
+  AuthenticateSaga: (user) => dispatch(AuthenticateSaga(user)),
+  LogoutSaga: () => dispatch(LogoutSaga())
   }
 }
 
 function mapStateToProps(state) {
   const { User } = state
   return {
-  	firstName: User.FirstName,
+  	firstName: User.firstName,
+    authenticateError: User.authenticateError
   }
 }
 
