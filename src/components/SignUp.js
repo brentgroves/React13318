@@ -47,14 +47,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function SignUp() {
+function SignUp({userName}) {
   const classes = useStyles();
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-      <h1>hello</h1>
+      <h1>hello Admin {userName}</h1>
       </div>
     </Container>
 )

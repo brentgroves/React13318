@@ -1,7 +1,27 @@
 import { connect } from 'react-redux'
 import PrivateRouteComponent from '../components/PrivateRoute'
 
-export const PrivateRoute = connect((state) => ({isAuthenticated:state.bpgservices.isAuthenticated}), {})(PrivateRouteComponent)
+import * as actions from '../actions'
+
+const mapDispatchToProps = dispatch => {
+  return {
+    // dispatching plain actions
+  //LogoutSaga: () => dispatch(actions.LogoutSaga())
+  }
+}
+
+function mapStateToProps(state) {
+  const { User } = state
+  return {
+    isAuthenticated: User.isAuthenticated
+  }
+}
+
+export const PrivateRoute = connect(mapStateToProps,{})(PrivateRouteComponent)
+
+//export const PrivateRoute = connect((state) => ({isAuthenticated:state.bpgservices.isAuthenticated}), {})(PrivateRouteComponent)
+
+
 //state.bpgservices.app.authentication.authenticated  I don't think using this is a good idea since I don't think I should change
 // the value with a dispatch
 /*

@@ -1,6 +1,6 @@
 
 import * as types from '../constants/ActionTypes'
-import { rcvDS13318, rcvKep13318, isAuthenticated,isAdmin,updateFirstName,setServices } from '../actions'
+import * as actions from '../actions'
 import {setSAGA} from '../sagas'
 const feathers = require('@feathersjs/feathers');
 const socketio = require('@feathersjs/socketio-client')
@@ -67,7 +67,9 @@ const setupServices = async (dispatch) => {
     .create({
       "email": "user4@buschegroup.com",
       "password": "JesusLives1!",
-      "userName": "Brent",
+      "userName": "user1",
+      "firstName": "User",
+      "lastName": "One",
       "isAdmin": true,
       "roles": [ "Admin", "Manager", "Quality"]
 
@@ -111,33 +113,42 @@ await srv.authenticate({
   console.error('Authentication error', e);
 });
 */
-/*
 
-await srv.reAuthenticate().then(() => {
-  dispatch(isAuthenticated(true));
-}).catch(() => {
-  dispatch(isAuthenticated(false));
+console.log('Before reAuthenticate')
+await srv.reAuthenticate().then((res) => {
+console.log('In reAuthenticate')
+console.log(res.user)
+dispatch(actions.SetIsAuthenticated(true));
+dispatch(actions.SetIsAdmin(res.user.isAdmin));
+dispatch(actions.SetUserName(res.user.userName));
+dispatch(actions.SetFirstName(res.user.firstName));
+dispatch(actions.SetLastName(res.user.lastName));
+dispatch(actions.SetEmail(res.user.email));
+dispatch(actions.SetRoles(res.user.roles))
+}).catch(e => {
+  // Show login page (potentially with `e.message`)
+  console.error('reAuthenticate error', e);
 });
-*/
+
 
 console.log('connecting to Kep13318');
   const Kep13318Service = srv.service('Kep13318');
   Kep13318Service.on('created', message => {
     console.log('Received a Kep13318 message', message);
-    dispatch(rcvKep13318(message.text));
+    dispatch(actions.RcvKep13318(message.text));
   });
   const Sproc13318Service = srv.service('Sproc13318');
   Sproc13318Service.on('created', message => {
     console.log('Received a Sproc13318 message');
     console.log(`message=> ${message.text[0].TransDate}`)
-      dispatch(rcvDS13318(message.text));
+      dispatch(actions.RcvDS13318(message.text));
 
   //  const p = JSON.parse(message.text.toString()); // payload is a buffer
 //    dispatch(messageReceived(message.text, 'Sproc13313'));
 //    dispatch(addDS13318(message.text));
   });
   setSAGA(srv,dispatch);
-  dispatch(setServices(srv));
+//  dispatch(setServices(srv));
 
 
 //await srv.logout().then(dispatch(isAuthenticated(false)));

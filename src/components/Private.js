@@ -52,8 +52,8 @@ const useStyles = makeStyles(theme => ({
 //   await srv.authenticate().catch(error => console.log(error));
 
 
-const Private = ({bpgservices}) => {
-    return (<h1>isAuthenticated: {bpgservices.app.authentication.authenticated}</h1>)
+const Private = ({userName}) => {
+    return (<h1>Hello {userName}</h1>)
 
 //  const classes = useStyles();
 }

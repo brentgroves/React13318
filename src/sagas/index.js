@@ -1,6 +1,7 @@
 import { put, takeEvery, all } from 'redux-saga/effects'
 import * as types from '../constants/ActionTypes'
-import { rcvDS13318, rcvKep13318, isAuthenticated,isAdmin,updateFirstName,SetAuthenticateError } from '../actions'
+import * as actions from '../actions'
+//import { rcvDS13318, rcvKep13318, isAuthenticated,isAdmin,updateFirstName,SetAuthenticateError,Authen } from '../actions'
 var g_test = 'Global test'
 var g_services
 var g_dispatch
@@ -94,18 +95,26 @@ export const handleAuthenticate = function* handleAuthenticate({services,dispatc
 }
 */
 function* handleAuthenticate(action) {
-  console.log(g_test);
+  console.log(action);
   try{
+    g_dispatch(actions.AuthenticateIsSubmitting(true));
     var res = yield g_services.authenticate({
     "strategy": "local",
-    "email": "user444@buschegroup.com",
-    "password": "JesusLives1!"
+    "email": action.email,
+    "password": action.password
     })
     console.log(res.user.isAdmin);
-    g_dispatch(isAdmin(res.user.isAdmin));
+    g_dispatch(actions.SetIsAuthenticated(true));
+    g_dispatch(actions.SetIsAdmin(res.user.isAdmin));
+    g_dispatch(actions.SetUserName(res.user.userName));
+    g_dispatch(actions.SetFirstName(res.user.firstName));
+    g_dispatch(actions.SetLastName(res.user.lastName));
+    g_dispatch(actions.SetEmail(res.user.email));
+    g_dispatch(actions.AuthenticateIsSubmitting(false));
   } catch(err) {
-    g_dispatch(SetAuthenticateError(err.message))
+    g_dispatch(actions.SetAuthenticateError(err.message))
     console.log(err);
+    g_dispatch(actions.AuthenticateIsSubmitting(false));
   }
 /*
   yield g_services.authenticate({

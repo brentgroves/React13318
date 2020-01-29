@@ -1,181 +1,222 @@
 //https://hackernoon.com/react-form-validation-using-react-hooks-5859c32280ca
 //https://hackernoon.com/react-form-validation-using-react-hooks-5859c32280ca
-import React, {Component,useState} from 'react';
-import PropTypes from 'prop-types'
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import AppBar from '@material-ui/core/AppBar';
+import React, { Component, useState } from "react";
+import PropTypes from "prop-types";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import AppBar from "@material-ui/core/AppBar";
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+
 //const feathers = require('@feathersjs/feathers');
 //import { useForm } from 'react-hook-form'
-import {
-  Formik, Form, Field, ErrorMessage,
-} from 'formik';
-import * as Yup from 'yup';
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
+      {"Copyright © "}
       <Link color="inherit" href="https://material-ui.com/">
         Your Website
-      </Link>{' '}
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
 
-
-
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.secondary.main
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(1)
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
+    margin: theme.spacing(3, 0, 2)
+  }
 }));
 
 //https://medium.com/hackernoon/learn-react-hooks-by-building-an-auth-based-to-do-app-c2d143928b0b
-const SignIn = ({AuthenticateSaga,LogoutSaga,authenticateError,firstName,srv,updateFirstName,isAuthenticated,isAdmin}) => {
-
+const SignIn = ({
+  AuthenticateSaga,
+  LogoutSaga,
+  authenticateError,
+  authenticateIsSubmitting,
+  ClearAuthenticateError,
+  firstName,
+  srv,
+  updateFirstName,
+  isAuthenticated,
+  isAdmin
+}) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [isSubmitionCompleted, setSubmitionCompleted] = useState(false);
 
-  return (
-  <Formik
-    initialValues={{ email: '', password: '' }}
-    onSubmit={(values, { setSubmitting }) => {
-     AuthenticateSaga({"email":"user4@buschegroup.com","password":"JesusLives1!"});
-     setSubmitting(false);
+  const handleClick = () => {
+    setOpen(true);
+  };
 
-     /*
+  const handleClose = (event, reason) => {
+    ClearAuthenticateError();
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+
+  return (
+    <Formik
+      initialValues={{ email: "", password: "" }}
+      onSubmit={(values, { setSubmitting }) => {
+        console.log(values.email);
+        AuthenticateSaga({
+          email: values.email,
+          password: values.password
+        });
+
+        /*
       setTimeout(() => {
         alert(JSON.stringify(values, null, 2));
         setSubmitting(false);
       }, 400);
       */
-    }}
-    validationSchema={Yup.object().shape({
-      email: Yup.string()
-        .email()
-        .required('Required'),
-      password: Yup.string()
-          .required('Required')
-    })}
-  >
-    {(props) => {
-      const {
-        values,
-        touched,
-        errors,
-        dirty,
-        isSubmitting,
-        handleChange,
-        handleBlur,
-        handleSubmit,
-        handleReset,
-      } = props;
+      }}
+      validationSchema={Yup.object().shape({
+        email: Yup.string()
+          .email()
+          .required("Required"),
+        password: Yup.string().required("Required")
+      })}
+    >
+      {props => {
+        const {
+          values,
+          touched,
+          errors,
+          dirty,
+          isSubmitting,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          handleReset
+        } = props;
 
-  return (
-    <section id="new-message">
-    <Container component="main" maxWidth="xs">
-    <CssBaseline />
-    <div className={classes.paper}>
-    <Avatar className={classes.avatar}>
-  <LockOutlinedIcon />
-</Avatar>
-<Typography component="h1" variant="h5">
-  Sign in
-</Typography>
-    {/* "handleSubmit" will validate your inputs before invoking "onSubmit" */}
-    <form className={classes.form} onSubmit={handleSubmit}>
-  <TextField
-  variant="outlined"
-  margin="normal"
-  fullWidth
-    error={errors.email && touched.email}
-    label="email"
-    name="email"
-    value={values.email}
-    onChange={handleChange}
-    onBlur={handleBlur}
-    helperText={(errors.email && touched.email) && errors.email}
-    autoComplete="email"
-    autoFocus
-  />
-  <TextField
-    variant="outlined"
-    margin="normal"
-    fullWidth
-    error={errors.password && touched.password}
-    name="password"
-    label="Password"
-
-    value={values.password}
-    onChange={handleChange}
-    onBlur={handleBlur}
-    helperText={(errors.password && touched.password) && errors.password}
-    type="password"
-    autoComplete="current-password"
-  />
-  {/*
+        return (
+          <section id="new-message">
+            <Container component="main" maxWidth="xs">
+              <CssBaseline />
+              <div className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                  <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                  Sign in
+                </Typography>
+                {/* "handleSubmit" will validate your inputs before invoking "onSubmit" */}
+                <form className={classes.form} onSubmit={handleSubmit}>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth
+                    error={errors.email && touched.email}
+                    label="email"
+                    name="email"
+                    value={values.email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    helperText={errors.email && touched.email && errors.email}
+                    autoComplete="email"
+                    autoFocus
+                  />
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth
+                    error={errors.password && touched.password}
+                    name="password"
+                    label="Password"
+                    value={values.password}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    helperText={
+                      errors.password && touched.password && errors.password
+                    }
+                    type="password"
+                    autoComplete="current-password"
+                  />
+                  {/*
   <FormControlLabel
     control={<Checkbox value="remember" color="primary" />}
     label="Remember me"
   />
 */}
-  <Button
-    type="submit"
-    fullWidth
-    variant="contained"
-    color="primary"
-    className={classes.submit}
-    disabled={isSubmitting}>
-    Sign In
-  </Button>
-{/*
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                    disabled={authenticateIsSubmitting}
+                  >
+                    Sign In
+                  </Button>
+                  {/*
 <Button type="submit" disabled={isSubmitting}>
   Submit
 </Button>
 */}
-  </form>
-</div>
-</Container>
-
-    </section>
-  )
-}}
-</Formik>
-)
-}
-
-
-
-
+                </form>
+                <Snackbar
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  open={authenticateError.error}
+                  autoHideDuration={6000}
+                  onClose={handleClose}
+                  message={authenticateError.message}
+                  action={
+                    <React.Fragment>
+                      <Button color="secondary" size="small" onClick={handleClose}>
+                        Fail
+                      </Button>
+                      <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
+                        <CloseIcon fontSize="small" />
+                      </IconButton>
+                    </React.Fragment>
+                  }
+                />
+              </div>
+            </Container>
+          </section>
+        );
+      }}
+    </Formik>
+  );
+};
 
 //   await srv.authenticate().catch(error => console.log(error));
 /*
@@ -236,7 +277,7 @@ const SignIn = (props) => {
       //alert('hello');
 //      console.log(app);
 */
-      /*
+/*
       app.authenticate({
       "strategy": "local",
       "email": "sgroves@buschegroup.com",
@@ -265,5 +306,4 @@ const SignIn = (props) => {
 
 */
 
-
-export default SignIn
+export default SignIn;
