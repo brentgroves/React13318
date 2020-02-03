@@ -1,6 +1,7 @@
 //https://hackernoon.com/react-form-validation-using-react-hooks-5859c32280ca
 //https://hackernoon.com/react-form-validation-using-react-hooks-5859c32280ca
 import React, { Component, useState } from "react";
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -19,7 +20,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-
+//https://stackoverflow.com/questions/31079081/programmatically-navigate-using-react-router
 //const feathers = require('@feathersjs/feathers');
 //import { useForm } from 'react-hook-form'
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -71,9 +72,11 @@ const SignIn = ({
   isAuthenticated,
   isAdmin
 }) => {
+//  const referer = props.location.state.referer || '/';
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [isSubmitionCompleted, setSubmitionCompleted] = useState(false);
+  const history = useHistory();
 
   const handleClick = () => {
     setOpen(true);
@@ -86,6 +89,9 @@ const SignIn = ({
     }
     setOpen(false);
   };
+  if(true==isAuthenticated){
+      history.push("/");
+  }
 
   return (
     <Formik

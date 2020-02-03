@@ -115,6 +115,7 @@ await srv.authenticate({
 */
 
 console.log('Before reAuthenticate')
+/*
 await srv.reAuthenticate().then((res) => {
 console.log('In reAuthenticate')
 console.log(res.user)
@@ -130,7 +131,7 @@ dispatch(actions.SetRoles(res.user.roles))
   console.error('reAuthenticate error', e);
 });
 
-
+*/
 console.log('connecting to Kep13318');
   const Kep13318Service = srv.service('Kep13318');
   Kep13318Service.on('created', message => {

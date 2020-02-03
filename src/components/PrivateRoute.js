@@ -23,6 +23,9 @@ message.reAuthenticate().then(() => {
   <Redirect to="/login" />
 });
 }
+
+            <Redirect
+              to={{ pathname: "/login", state: { referer: props.location } }}
 */
   return (
     <Route
@@ -31,7 +34,8 @@ message.reAuthenticate().then(() => {
         isAuthenticated ? (
           <Component {...props} />
         ) : (
-          <Redirect to="/login" />
+            <Redirect to="/login" />
+
         )
       }
     />

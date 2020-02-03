@@ -15,7 +15,8 @@ function mapStateToProps(state) {
   const { User } = state
   return {
     authenticateError: User.authenticateError,
-    authenticateIsSubmitting: User.authenticateIsSubmitting
+    authenticateIsSubmitting: User.authenticateIsSubmitting,
+    isAuthenticated: User.isAuthenticated
   }
 }
 

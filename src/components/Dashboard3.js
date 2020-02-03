@@ -52,13 +52,17 @@ const useStyles = makeStyles(theme => ({
 //   await srv.authenticate().catch(error => console.log(error));
 
 
-const Private = ({userName,referer}) => {
-    return (<h1>Hello {userName} referer: {referer}</h1>)
+const Dashboard = ({isAdmin}) => {
+  if (isAdmin){
+      return (<h1>Admin</h1>)
 
+  }else {
+    return (<h1>Not Admin</h1>)
+  }
 //  const classes = useStyles();
 }
 
 
 
 
-export default Private
+export default Dashboard
