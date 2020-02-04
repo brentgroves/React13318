@@ -1,6 +1,8 @@
 import { put, takeEvery, all } from 'redux-saga/effects'
+//import { put, call } from 'redux-saga/effects'
 import * as types from '../constants/ActionTypes'
 import * as actions from '../actions'
+import { push } from 'connected-react-router'
 //import { rcvDS13318, rcvKep13318, isAuthenticated,isAdmin,updateFirstName,SetAuthenticateError,Authen } from '../actions'
 var g_test = 'Global test'
 var g_services
@@ -110,7 +112,9 @@ function* handleAuthenticate(action) {
     g_dispatch(actions.SetFirstName(res.user.firstName));
     g_dispatch(actions.SetLastName(res.user.lastName));
     g_dispatch(actions.SetEmail(res.user.email));
+    g_dispatch(actions.SetRoles(res.user.roles));
     g_dispatch(actions.AuthenticateIsSubmitting(false));
+    yield put(push('/dashboard'))
   } catch(err) {
     g_dispatch(actions.SetAuthenticateError(err.message))
     console.log(err);

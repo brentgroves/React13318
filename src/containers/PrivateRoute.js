@@ -11,9 +11,10 @@ const mapDispatchToProps = dispatch => {
 }
 
 function mapStateToProps(state) {
-  const { User } = state
+  const { User, router } = state
   return {
-    isAuthenticated: User.isAuthenticated
+    isAuthenticated: User.isAuthenticated,
+    router
   }
 }
 

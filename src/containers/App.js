@@ -18,6 +18,7 @@ function mapStateToProps(state) {
     userName: User.userName,
     firstName: User.firstName,
     lastName: User.lastName
+
   }
 }
 

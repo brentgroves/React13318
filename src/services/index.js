@@ -65,11 +65,11 @@ const setupServices = async (dispatch) => {
 /*
   await srv.service('users')
     .create({
-      "email": "user4@buschegroup.com",
+      "email": "bgroves@buschegroup.com",
       "password": "JesusLives1!",
-      "userName": "user1",
-      "firstName": "User",
-      "lastName": "One",
+      "userName": "bgroves",
+      "firstName": "Brent",
+      "lastName": "Groves",
       "isAdmin": true,
       "roles": [ "Admin", "Manager", "Quality"]
 
@@ -113,9 +113,9 @@ await srv.authenticate({
   console.error('Authentication error', e);
 });
 */
-
-console.log('Before reAuthenticate')
 /*
+console.log('Before reAuthenticate')
+
 await srv.reAuthenticate().then((res) => {
 console.log('In reAuthenticate')
 console.log(res.user)
@@ -130,8 +130,8 @@ dispatch(actions.SetRoles(res.user.roles))
   // Show login page (potentially with `e.message`)
   console.error('reAuthenticate error', e);
 });
-
 */
+
 console.log('connecting to Kep13318');
   const Kep13318Service = srv.service('Kep13318');
   Kep13318Service.on('created', message => {

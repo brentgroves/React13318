@@ -74,6 +74,14 @@ const User = (state = initState, action) => {
        })
 
     }
+    case types.SET_EMAIL:
+    {
+      // Keep a reference to the service object created in sockets initialization code.
+      return Object.assign({}, state, {
+         email: action.email
+       })
+
+    }
     case types.SET_FIRSTNAME:
     {
       // Keep a reference to the service object created in sockets initialization code.

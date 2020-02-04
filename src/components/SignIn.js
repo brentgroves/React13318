@@ -89,9 +89,9 @@ const SignIn = ({
     }
     setOpen(false);
   };
-  if(true==isAuthenticated){
-      history.push("/");
-  }
+//  if(true==isAuthenticated){
+  //    history.push("/");
+//  }
 
   return (
     <Formik
