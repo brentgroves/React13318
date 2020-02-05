@@ -3,6 +3,15 @@ import * as types from '../constants/ActionTypes'
 let nextDS13318Id = 0
 let nextKep13318Id = 0
 
+export const AddHourlyOEEValue = (record) => ({
+  type: types.ADD_HOURLY_OEE_VALUE,
+  record
+})
+
+export const SetHourlyOEEValuesStartId = (startId) => ({
+  type: types.SET_HOURLY_OEE_VALUES_STARTID,
+  startId
+})
 export const AuthenticateIsSubmitting = (authenticateIsSubmitting) => ({
   type: types.AUTHENTICATE_IS_SUBMITTING,
   authenticateIsSubmitting

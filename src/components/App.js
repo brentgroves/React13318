@@ -4,8 +4,6 @@ import { Route, Switch } from 'react-router' // react-router v4/v5
 import { Dashboard } from '../containers/Dashboard'
 import { SignIn } from '../containers/SignIn'
 import { SignUp } from '../containers/SignUp'
-import { Private } from '../containers/Private'
-import { PrivateRoute } from '../containers/PrivateRoute'
 import { AdminRoute } from '../containers/AdminRoute'
 //https://reacttraining.com/blog/react-router-v5/
 //<Route exact path="/" render={() => (<div>Match</div>)} />
@@ -33,7 +31,6 @@ const App = (props) => {
       <Route exact path="/" component={Dashboard} />
       <Route path="/login" component={SignIn} />
       <Route path="/dashboard" component={Dashboard} />
-      <Route path="/private" component={Private} />
       </Switch>
 
   )
