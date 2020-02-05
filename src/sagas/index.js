@@ -114,7 +114,7 @@ function* handleAuthenticate(action) {
     g_dispatch(actions.SetEmail(res.user.email));
     g_dispatch(actions.SetRoles(res.user.roles));
     g_dispatch(actions.AuthenticateIsSubmitting(false));
-    yield put(push('/dashboard'))
+    yield put(push('/'))
   } catch(err) {
     g_dispatch(actions.SetAuthenticateError(err.message))
     console.log(err);
