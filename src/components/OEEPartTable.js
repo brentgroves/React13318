@@ -43,8 +43,8 @@ function TablePaginationActions(props) {
 
   const handleNextButtonClick = event => {
     if(page==lastPage){
-      g_FetchNextHourlyOEEValues(g_skip+2);
-      //onChangePage(event,0);
+      g_FetchNextHourlyOEEValues(g_skip+10);
+      onChangePage(event,0);
     }else{
       onChangePage(event, page + 1);
     }
@@ -83,7 +83,7 @@ function TablePaginationActions(props) {
     </div>
   );
 }
-// disabled={page >= Math.ceil(count / rowsPerPage) - 1} 
+// disabled={page >= Math.ceil(count / rowsPerPage) - 1}
 
 TablePaginationActions.propTypes = {
   count: PropTypes.number.isRequired,
