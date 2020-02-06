@@ -3,15 +3,36 @@ import * as types from '../constants/ActionTypes'
 let nextDS13318Id = 0
 let nextKep13318Id = 0
 
-export const AddHourlyOEEValue = (record) => ({
-  type: types.ADD_HOURLY_OEE_VALUE,
-  record
+export const Push = (path) => ({
+  type: types.PUSH,
+  path
 })
 
-export const SetHourlyOEEValuesStartId = (startId) => ({
-  type: types.SET_HOURLY_OEE_VALUES_STARTID,
-  startId
+export const SetHourlyOEEValuesTotal = (total) => ({
+  type: types.SET_HOURLY_OEE_VALUES_TOTAL,
+  total
 })
+
+export const SetHourlyOEEValuesLimit = (limit) => ({
+  type: types.SET_HOURLY_OEE_VALUES_LIMIT,
+  limit
+})
+
+export const SetHourlyOEEValuesSkip = (skip) => ({
+  type: types.SET_HOURLY_OEE_VALUES_SKIP,
+  skip
+})
+
+export const SetHourlyOEEValuesData = (data) => ({
+  type: types.SET_HOURLY_OEE_VALUES_DATA,
+  data
+})
+
+export const FetchNextHourlyOEEValues = (skip) => ({
+  type: types.FETCH_NEXT_HOURLY_OEE_VALUES,
+  skip
+})
+
 export const AuthenticateIsSubmitting = (authenticateIsSubmitting) => ({
   type: types.AUTHENTICATE_IS_SUBMITTING,
   authenticateIsSubmitting

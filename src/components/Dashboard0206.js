@@ -19,6 +19,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import { mainListItems, secondaryListItems } from "./listItems";
+import MaterialTable from "material-table";
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -26,9 +27,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-
-import {OEEPartTable} from "../containers/OEEPartTable";
-
 
 //import Chart from './Chart';
 //import Deposits from './Deposits';
@@ -127,12 +125,12 @@ const rows = [
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
 
-export default function Dashboard({ isAuthenticated, isAdmin, Push }) {
+export default function Dashboard({ isAuthenticated, isAdmin, push }) {
   useEffect(() => {
     // Update the document title using the browser API
     //document.title = `You clicked ${count} times`;
     if (!isAuthenticated) {
-      Push("/login");
+      push("/login");
     }
   });
   const classes = useStyles();
@@ -202,7 +200,33 @@ export default function Dashboard({ isAuthenticated, isAdmin, Push }) {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-        <OEEPartTable />
+
+        <TableContainer component={Paper}>
+           <Table className={classes.table} aria-label="simple table">
+             <TableHead>
+               <TableRow>
+                 <TableCell>Dessert (100g serving)</TableCell>
+                 <TableCell align="right">Calories</TableCell>
+                 <TableCell align="right">Fat&nbsp;(g)</TableCell>
+                 <TableCell align="right">Carbs&nbsp;(g)</TableCell>
+                 <TableCell align="right">Protein&nbsp;(g)</TableCell>
+               </TableRow>
+             </TableHead>
+             <TableBody>
+               {rows.map(row => (
+                 <TableRow key={row.name}>
+                   <TableCell component="th" scope="row">
+                     {row.name}
+                   </TableCell>
+                   <TableCell align="right">{row.calories}</TableCell>
+                   <TableCell align="right">{row.fat}</TableCell>
+                   <TableCell align="right">{row.carbs}</TableCell>
+                   <TableCell align="right">{row.protein}</TableCell>
+                 </TableRow>
+               ))}
+             </TableBody>
+           </Table>
+         </TableContainer>
         </Container>
          </main>
     </div>

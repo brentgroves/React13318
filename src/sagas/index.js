@@ -96,6 +96,26 @@ export const handleAuthenticate = function* handleAuthenticate({services,dispatc
   })
 }
 */
+function* handleFetchNextHourlyOEEValues(action){
+  console.log("in handleFetchNextHourlyOEEValues");
+  try{
+    var res = yield g_services.service('hourlyoeevalues').find({
+      query: {
+        $limit: 10,
+        $skip: action.skip,
+        $sort: {
+          ID: 1
+        }
+      }
+    });
+    g_dispatch(actions.SetHourlyOEEValuesTotal(res.total));
+    g_dispatch(actions.SetHourlyOEEValuesLimit(res.limit));
+    g_dispatch(actions.SetHourlyOEEValuesSkip(res.skip));
+    g_dispatch(actions.SetHourlyOEEValuesData(res.data));
+  }catch(err){
+    console.log(err);
+  }
+}
 function* handleAuthenticate(action) {
   console.log(action);
   try{
@@ -151,6 +171,12 @@ function* handleAuthenticate(action) {
   function* handleLogout(action) {
     yield g_services.logout();
   }
+// will not work
+  function* handlePush(action) {
+    console.log("in handlePush()")
+    yield put(push('/login'))
+  }
+
 
 function* watchAuthenticate() {
   yield takeEvery(types.AUTHENTICATE_SAGA, handleAuthenticate)
@@ -160,6 +186,13 @@ function* watchLogout() {
   yield takeEvery(types.LOGOUT_SAGA, handleLogout)
 }
 
+function* watchFetchNextHourlyOEEValues(){
+  yield takeEvery(types.FETCH_NEXT_HOURLY_OEE_VALUES, handleFetchNextHourlyOEEValues)
+}
+
+function* watchPush() {
+  yield takeEvery(types.PUSH, handlePush)
+}
 
 // notice how we now only export the rootSaga
 // single entry point to start all Sagas at once
@@ -168,7 +201,9 @@ export default function* rootSaga() {
 //    handleKep13318(),
 //    handleSignUp(),
     watchAuthenticate(),
-    watchLogout()
+    watchLogout(),
+    watchFetchNextHourlyOEEValues(),
+    watchPush()
 //    handleReAuthenticate()
   ])
 }

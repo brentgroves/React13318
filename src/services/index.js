@@ -113,7 +113,7 @@ await srv.authenticate({
   console.error('Authentication error', e);
 });
 */
-
+/*
 console.log('Before reAuthenticate')
 
 await srv.reAuthenticate().then((res) => {
@@ -129,6 +129,25 @@ dispatch(actions.SetRoles(res.user.roles))
 }).catch(e => {
   // Show login page (potentially with `e.message`)
   console.error('reAuthenticate error', e);
+});
+*/
+await srv.service('hourlyoeevalues').find({
+  query: {
+    $limit: 10,
+    $sort: {
+      ID: 1
+    }
+  }
+}).then((res) => {
+console.log('In Find')
+//console.log(res[0])
+dispatch(actions.SetHourlyOEEValuesTotal(res.total));
+dispatch(actions.SetHourlyOEEValuesLimit(res.limit));
+dispatch(actions.SetHourlyOEEValuesSkip(res.skip));
+dispatch(actions.SetHourlyOEEValuesData(res.data));
+}).catch(e => {
+  // Show login page (potentially with `e.message`)
+  console.error('find error', e);
 });
 
 console.log('connecting to Kep13318');
