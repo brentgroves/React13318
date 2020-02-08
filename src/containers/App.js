@@ -6,7 +6,8 @@ import * as actions from '../actions'
 const mapDispatchToProps = dispatch => {
   return {
     // dispatching plain actions
-  LogoutSaga: () => dispatch(actions.LogoutSaga())
+    Push: () => dispatch(actions.Push()),
+  Logout: () => dispatch(actions.Logout())
   }
 }
 

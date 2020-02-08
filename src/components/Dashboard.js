@@ -26,7 +26,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-
+import {ReportList} from '../containers/ReportList';
 import {OEEPartTable} from "../containers/OEEPartTable";
 
 
@@ -195,9 +195,7 @@ export default function Dashboard({ isAuthenticated, isAdmin, Push }) {
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
+        <ReportList />
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />

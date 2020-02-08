@@ -1,38 +1,21 @@
 import * as types from '../constants/ActionTypes'
 
+
 let nextDS13318Id = 0
 let nextKep13318Id = 0
-
+// No Reducer
 export const Push = (path) => ({
   type: types.PUSH,
   path
 })
 
-export const SetHourlyOEEValuesTotal = (total) => ({
-  type: types.SET_HOURLY_OEE_VALUES_TOTAL,
-  total
+// Global Reducer
+export const IsSubmitting = (isSubmitting) => ({
+  type: types.IS_SUBMITTING,
+  isSubmitting
 })
 
-export const SetHourlyOEEValuesLimit = (limit) => ({
-  type: types.SET_HOURLY_OEE_VALUES_LIMIT,
-  limit
-})
-
-export const SetHourlyOEEValuesSkip = (skip) => ({
-  type: types.SET_HOURLY_OEE_VALUES_SKIP,
-  skip
-})
-
-export const SetHourlyOEEValuesData = (data) => ({
-  type: types.SET_HOURLY_OEE_VALUES_DATA,
-  data
-})
-
-export const FetchNextHourlyOEEValues = (skip) => ({
-  type: types.FETCH_NEXT_HOURLY_OEE_VALUES,
-  skip
-})
-
+// User Reducer
 export const AuthenticateIsSubmitting = (authenticateIsSubmitting) => ({
   type: types.AUTHENTICATE_IS_SUBMITTING,
   authenticateIsSubmitting
@@ -84,10 +67,88 @@ export const SetLastName = (lastName) => ({
   lastName
 })
 
-export const LogoutSaga = () => ({
-  type: types.LOGOUT_SAGA
+export const LogoutIsSubmitting = (logoutIsSubmitting) => ({
+  type: types.LOGOUT_IS_SUBMITTING,
+  logoutIsSubmitting
 })
 
+export const Logout = () => ({
+  type: types.LOGOUT
+})
+
+
+// Sproc Reducer
+export const SetSprocName = (sprocName) => ({
+  type: types.SET_SPROC_NAME,
+  sprocName
+})
+
+export const SetTableName = (tableName) => {
+  return  {
+    type: types.SET_TABLE_NAME,
+    tableName
+  }
+}
+
+export const SetQueryTotal = (total) => ({
+  type: types.SET_QUERY_TOTAL,
+  total
+})
+
+export const SetQueryLimit = (limit) => ({
+  type: types.SET_QUERY_LIMIT,
+  limit
+})
+
+export const SetQuerySkip = (skip) => ({
+  type: types.SET_QUERY_SKIP,
+  skip
+})
+
+export const SetQueryData = (data) => ({
+  type: types.SET_QUERY_DATA,
+  data
+})
+
+export const FetchNext = (sprocName,tableName,skip) => ({
+  type: types.FETCH_NEXT,
+  sprocName,
+  tableName,
+  skip
+})
+
+export const Sproc200206Create = (startDate,endDate) => ({
+  type: types.SPROC200206_CREATE,
+  startDate,
+  endDate
+})
+
+
+// Obsolete
+export const SetHourlyOEEValuesTotal = (total) => ({
+  type: types.SET_HOURLY_OEE_VALUES_TOTAL,
+  total
+})
+
+export const SetHourlyOEEValuesLimit = (limit) => ({
+  type: types.SET_HOURLY_OEE_VALUES_LIMIT,
+  limit
+})
+
+export const SetHourlyOEEValuesSkip = (skip) => ({
+  type: types.SET_HOURLY_OEE_VALUES_SKIP,
+  skip
+})
+
+export const SetHourlyOEEValuesData = (data) => ({
+  type: types.SET_HOURLY_OEE_VALUES_DATA,
+  data
+})
+
+export const FetchNextHourlyOEEValues = (skip) => ({
+  type: types.FETCH_NEXT_HOURLY_OEE_VALUES,
+  skip
+})
 
 /* add from UI is obviously not needed but is for testing */
 export const AddKep13318 = (text) => ({

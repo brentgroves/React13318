@@ -1,6 +1,5 @@
 import { connect } from "react-redux";
 import OEEPartTableComponent from "../components/OEEPartTable";
-import { push } from "connected-react-router";
 import * as actions from '../actions'
 
 function mapStateToProps(state) {
@@ -9,8 +8,7 @@ function mapStateToProps(state) {
     total: HourlyOEEValues.total,
     limit: HourlyOEEValues.limit,
     skip: HourlyOEEValues.skip,
-    data: HourlyOEEValues.data,
-    push
+    data: HourlyOEEValues.data
   }
 }
 

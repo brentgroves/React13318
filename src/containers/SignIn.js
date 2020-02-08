@@ -7,7 +7,6 @@ const mapDispatchToProps = dispatch => {
     // dispatching plain actions
   AuthenticateSaga: (user) => dispatch(actions.AuthenticateSaga(user)),
   ClearAuthenticateError: () => dispatch(actions.ClearAuthenticateError()),
-  LogoutSaga: () => dispatch(actions.LogoutSaga())
   }
 }
 
