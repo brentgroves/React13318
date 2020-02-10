@@ -48,10 +48,10 @@ client.configure(feathers.authentication({
   storage: window.localStorage
 }));
 */
-
+// seting dispatch as a global variable works, but setting
+// store as a global variable in Saga messes up the generator functions
 const setupServices = async (dispatch) => {
   //const socket = new WebSocket('ws://localhost:8989')
-
   const socket = io('http://localhost:3030');
   const srv = feathers();
 
@@ -166,7 +166,10 @@ console.log('connecting to Kep13318');
 //    dispatch(messageReceived(message.text, 'Sproc13313'));
 //    dispatch(addDS13318(message.text));
   });
+  // seting dispatch as a global variable works, but setting
+  // store as a global variable messes up the generator functions
   setSAGA(srv,dispatch);
+//  setSAGA(srv,store);
 //  dispatch(setServices(srv));
 
 

@@ -6,6 +6,7 @@ import { push } from "connected-react-router";
 var datetime = require('node-datetime');
 var g_test = "Global test";
 var g_services;
+var g_store;
 var g_dispatch;
 var nextTableNumber = 0
 
@@ -162,21 +163,28 @@ function* handleSproc200206Create(action) {
     g_dispatch(actions.SetSprocName("sproc200206"));
     g_dispatch(actions.SetTableName(tableName));
     g_dispatch(actions.SetQueryTotal(res));
+    g_dispatch(actions.SetQueryLimit(1000));
+    g_dispatch(actions.SetQuerySkip(0));
+    g_dispatch(actions.QueryFetch("sproc200206",tableName,1000,0));
+    yield put(push("/sproc0206"));
     g_dispatch(actions.IsSubmitting(false));
-    g_dispatch(actions.FetchNext("sproc200206",tableName,0));
+
   } catch (err) {
     console.log(err);
   }
 }
 
-function* handleFetchNext(action) {
-  console.log("in handleFetchNext");
-  console.log(`sprocName: ${action.sprocName}, skip: ${action.skip}, tableName: ${action.tableName}`);
+function* handleQueryFetch(action) {
+  g_dispatch(actions.IsSubmitting(true))
+
+  console.log("in handleQueryFetch");
+//  const {Sproc} = g_store;
+  console.log(`sprocName: ${action.sprocName}, limit: ${action.limit},skip: ${action.skip}, tableName: ${action.tableName}`);
   try {
     var res = yield g_services.service(action.sprocName).find({
       query: {
         $tableName: action.tableName,
-        $limit: 10,
+        $limit: action.limit,
         $skip: action.skip,
         $sort: {
           ID: 1
@@ -188,8 +196,11 @@ function* handleFetchNext(action) {
   //  g_dispatch(actions.SetQueryLimit(res.limit));
 //    g_dispatch(actions.SetQuerySkip(res.skip));
     g_dispatch(actions.SetQueryData(res));
+    g_dispatch(actions.SetQuerySkip(action.skip))
+    g_dispatch(actions.IsSubmitting(false))
   } catch (err) {
     console.log(err);
+    g_dispatch(actions.IsSubmitting(false))
   }
 }
 
@@ -261,10 +272,10 @@ function* watchSproc200206Create(){
     );
 }
 
-function* watchFetchNext(){
+function* watchQueryFetch(){
   yield takeEvery(
-    types.FETCH_NEXT,
-    handleFetchNext
+    types.QUERY_FETCH,
+    handleQueryFetch
   )
 }
 
@@ -286,7 +297,7 @@ export default function* rootSaga() {
     watchAuthenticate(),
     watchLogout(),
     watchSproc200206Create(),
-    watchFetchNext(),
+    watchQueryFetch(),
     watchFetchNextHourlyOEEValues(),
     //    handleReAuthenticate()
   ]);

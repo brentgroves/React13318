@@ -25,7 +25,7 @@ export const SET_QUERY_TOTAL = 'SET_QUERY_TOTAL'
 export const SET_QUERY_LIMIT = 'SET_QUERY_LIMIT'
 export const SET_QUERY_SKIP = 'SET_QUERY_SKIP'
 export const SET_QUERY_DATA = 'SET_QUERY_DATA'
-export const FETCH_NEXT = 'FETCH_NEXT'
+export const QUERY_FETCH = 'QUERY_FETCH'
 
 // Sproc Reducer
 export const SET_TABLE_NAME = 'SET_TABLE_NAME'

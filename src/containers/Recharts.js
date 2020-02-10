@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import AppComponent from '../components/App'
+import RechartsComponent from '../components/Recharts'
 
 import * as actions from '../actions'
 
@@ -27,4 +27,4 @@ function mapStateToProps(state) {
   }
 }
 
-export const App = connect(mapStateToProps, mapDispatchToProps)(AppComponent)
+export const Recharts = connect(mapStateToProps, mapDispatchToProps)(RechartsComponent)

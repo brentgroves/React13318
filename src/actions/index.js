@@ -110,10 +110,11 @@ export const SetQueryData = (data) => ({
   data
 })
 
-export const FetchNext = (sprocName,tableName,skip) => ({
-  type: types.FETCH_NEXT,
+export const QueryFetch = (sprocName,tableName,limit,skip) => ({
+  type: types.QUERY_FETCH,
   sprocName,
   tableName,
+  limit,
   skip
 })
 
