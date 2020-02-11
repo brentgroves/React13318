@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import Sproc0206Component from "../components/Sproc0206";
+import Sproc200206Component from "../components/Sproc200206";
 import * as actions from '../actions'
 
 function mapStateToProps(state) {
@@ -25,4 +25,4 @@ const mapDispatchToProps = dispatch => {
 }
 
 
-export const Sproc0206 = connect(mapStateToProps, mapDispatchToProps)(Sproc0206Component)
+export const Sproc200206 = connect(mapStateToProps, mapDispatchToProps)(Sproc200206Component)

@@ -9,6 +9,7 @@ export const Push = (path) => ({
   path
 })
 
+
 // Global Reducer
 export const IsSubmitting = (isSubmitting) => ({
   type: types.IS_SUBMITTING,
@@ -122,6 +123,12 @@ export const Sproc200206Create = (startDate,endDate) => ({
   type: types.SPROC200206_CREATE,
   startDate,
   endDate
+})
+
+// Dialogs
+export const OpenSproc200206Dialog = (open) => ({
+  type: types.OPEN_SPROC200206_DIALOG,
+  open
 })
 
 

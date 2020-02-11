@@ -117,7 +117,7 @@ const useStyles2 = makeStyles({
   },
 });
 
-export default function Sproc0206({ isAuthenticated,sprocName,tableName,total, limit, skip, data, Push, QueryFetch }) {
+export default function Sproc200206({ isAuthenticated,sprocName,tableName,total, limit, skip, data, Push, QueryFetch }) {
   g_sprocName=sprocName;
   g_tableName=tableName;
   g_total=total;

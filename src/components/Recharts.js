@@ -32,9 +32,6 @@ import {VisualizationsList} from '../containers/VisualizationsList';
 import { BarChart, Bar, Brush, Cell, CartesianGrid, ReferenceLine, ReferenceDot,
   XAxis, YAxis, Tooltip, Legend, ErrorBar, LabelList } from 'recharts';
 
-import {Sproc0206} from "../containers/Sproc0206";
-//import {OEEPartTable} from "../containers/OEEPartTable";
-import { SignIn } from '../containers/SignIn'
 
 
 

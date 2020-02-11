@@ -29,7 +29,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import {VisualizationsList} from '../containers/VisualizationsList';
-import {Sproc0206} from "../containers/Sproc0206";
+import {Sproc200206} from "../containers/Sproc200206";
+import {Dialogs} from "../containers/Dialogs";
 import {Recharts} from "../containers/Recharts";
 //import {OEEPartTable} from "../containers/OEEPartTable";
 import { SignIn } from '../containers/SignIn'
@@ -126,11 +127,11 @@ export default function App({ isAuthenticated, isAdmin,pathname, Push, Logout })
     // Update the document title using the browser API
     //document.title = `You clicked ${count} times`;
     if (!isAuthenticated) {
-      Push("/login");
+      Push("login");
     }
   });
   const classes = useStyles();
-  const [open, setOpen] = React.useState(isAuthenticated);
+  const [open, setOpen] = React.useState(true);
   const handleLogout = () => {
     Logout();
   }
@@ -208,16 +209,15 @@ export default function App({ isAuthenticated, isAdmin,pathname, Push, Logout })
     }
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-    {/*    <h1>{pathname}</h1> */}
-
         <Container maxWidth="lg" className={classes.container}>
         <Switch>
-        <Route exact path="/sproc0206" component={Sproc0206} />
+        <Route exact path="/sproc200206" component={Sproc200206} />
         <Route exact path="/" component={Recharts} />
         <Route path="/login" component={SignIn} />
         </Switch>
         </Container>
          </main>
+         <Dialogs />
     </div>
 
   );

@@ -12,6 +12,7 @@ import SendIcon from '@material-ui/icons/Send';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
+
 // PROBLEM WITH COLLAPSE SUB LIST AND FIREFOX
 // WAIT FOR NEW VERSION OF MATERIAL-UI WHICH HAS NESTE LIST-ITEM COMPONENT
 //https://v0.material-ui.com/#/components/list
@@ -28,54 +29,76 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function VisualizationsList(params) {
-  const { isAuthenticated, isAdmin, Push, Sproc200206Create  } = params;
+  const { isAuthenticated, isAdmin, Push, OpenSproc200206Dialog,Sproc200206Create  } = params;
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [openAdHocOEE, setOpenAdHocOEE] = React.useState(true);
+  const [openFixedOEE, setOpenFixedOEE] = React.useState(true);
 
-  const handleClick = () => {
-    setOpen(!open);
+  const handleAdHocOEEClick = () => {
+    setOpenAdHocOEE(!openAdHocOEE);
+  };
+
+  const handleFixedOEEClick = () => {
+    setOpenFixedOEE(!openFixedOEE);
   };
   const handleSproc200206Create = () => {
     Sproc200206Create("2020-02-01T00:00:00","2020-02-07T23:59:00");
   }
+  /*
+  const handleSproc200206Dialog = () => {
+    Push("/sproc200206params");
+  }
+  */
+  const handleSproc200206Dialog = () => {
+    OpenSproc200206Dialog(true);
+  }
 
   return (
     <List>
-      <ListItem button>
-        <ListItemIcon>
-          <SendIcon />
-        </ListItemIcon>
-        <ListItemText primary="Quality" />
-      </ListItem>
-      <ListItem button>
-        <ListItemIcon>
-          <DraftsIcon />
-        </ListItemIcon>
-        <ListItemText primary="Sales" />
-      </ListItem>
-      <ListItem button onClick={handleSproc200206Create}>
-        <ListItemIcon>
-          <InboxIcon />
-        </ListItemIcon>
-        <ListItemText primary="Production" />
-      </ListItem>
-      <ListItem button >
-        <ListItemIcon>
-          <InboxIcon />
-        </ListItemIcon>
-        <ListItemText primary="Production" />
-      </ListItem>
-
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItem button className={classes.nested} onClick={handleSproc200206Create} >
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="OEE" />
-          </ListItem>
-        </List>
-      </Collapse>
+    <ListSubheader>Ad-Hoc</ListSubheader>
+    <ListItem button onClick={handleAdHocOEEClick}>
+      <ListItemIcon>
+        <SendIcon />
+      </ListItemIcon>
+      <ListItemText primary="OEE" />
+      {openAdHocOEE ? <ExpandLess /> : <ExpandMore />}
+    </ListItem>
+    <Collapse in={openAdHocOEE} timeout="auto" unmountOnExit>
+      <List component="div" disablePadding>
+        <ListItem button className={classes.nested} onClick={handleSproc200206Dialog} >
+          <ListItemIcon>
+            <StarBorder />
+          </ListItemIcon>
+          <ListItemText primary="Part" />
+        </ListItem>
+      </List>
+      <List component="div" disablePadding>
+        <ListItem button className={classes.nested}  >
+          <ListItemIcon>
+            <StarBorder />
+          </ListItemIcon>
+          <ListItemText primary="Selectable" />
+        </ListItem>
+      </List>
+    </Collapse>
+    <ListSubheader>Fixed</ListSubheader>
+    <ListItem button onClick={handleFixedOEEClick}>
+    <ListItemIcon>
+      <SendIcon />
+    </ListItemIcon>
+      <ListItemText primary="OEE" />
+      {openFixedOEE ? <ExpandLess /> : <ExpandMore />}
+    </ListItem>
+    <Collapse in={openFixedOEE} timeout="auto" unmountOnExit>
+      <List component="div" disablePadding>
+        <ListItem button className={classes.nested}  >
+          <ListItemIcon>
+            <StarBorder />
+          </ListItemIcon>
+          <ListItemText primary="Part" />
+        </ListItem>
+      </List>
+    </Collapse>
     </List>
   );
 }

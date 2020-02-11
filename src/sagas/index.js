@@ -102,7 +102,8 @@ export const handleAuthenticate = function* handleAuthenticate({services,dispatc
 // will not work
 function* handlePush(action) {
   console.log("in handlePush()");
-  yield put(push("/login"));
+  yield put(push(action.path));
+//  yield put(push("/login"));
 }
 
 function* handleAuthenticate(action) {
@@ -166,7 +167,7 @@ function* handleSproc200206Create(action) {
     g_dispatch(actions.SetQueryLimit(1000));
     g_dispatch(actions.SetQuerySkip(0));
     g_dispatch(actions.QueryFetch("sproc200206",tableName,1000,0));
-    yield put(push("/sproc0206"));
+    yield put(push("/sproc200206"));
     g_dispatch(actions.IsSubmitting(false));
 
   } catch (err) {
