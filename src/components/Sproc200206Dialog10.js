@@ -2,7 +2,7 @@ import React from "react";
 import "date-fns";
 import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
-import { format,compareAsc  } from "date-fns";
+import { format } from "date-fns";
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
@@ -20,9 +20,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 //https://stackoverflow.com/questions/31079081/programmatically-navigate-using-react-router
 import { Formik, Form, Field, ErrorMessage, DisplayFormikState } from "formik";
 import * as Yup from "yup";
-import Snackbar from '@material-ui/core/Snackbar';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -103,9 +100,6 @@ const handleEndDateChange = date => {
 
   const [open, setOpen] = React.useState(true);
 
-  const [dateError, setDateError] = React.useState(false);
-
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -167,22 +161,18 @@ const handleEndDateChange = date => {
             let ed = new Date(values.endDate);
             let end = format(ed, "yyyy-MM-dd'T23:59:59'")
             console.log(end);
-            //Compare the two dates and return 1 if the first date is after the second,
-            // -1 if the first date is before the second or 0 if dates are equal.
-            if (-1==compareAsc(ed, sd)){
-              setDateError(true);
 
-            }
-            /*
             setTimeout(() => {
               alert(JSON.stringify(values, null, 2));
               setSubmitting(false);
             }, 400);
-            */
-            Sproc200206Create(start,end);
             OpenSproc200206Dialog(false);
-
+            // Call Sproc200206Create
           }}
+          validationSchema={Yup.object().shape({
+            startDate: Yup.date(),
+            endDate: Yup.date()
+          })}
         >
           {props => {
             const {
@@ -198,7 +188,6 @@ const handleEndDateChange = date => {
             } = props;
 
             return (
-              <div>
               <form onSubmit={handleSubmit}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <Grid container justify="space-around">
@@ -208,15 +197,6 @@ const handleEndDateChange = date => {
                   </Grid>
                 </MuiPickersUtilsProvider>
                 <DialogActions>
-                <Button
-                disabled={isSubmitting}
-                  type="button"
-                  className="outline"
-                  onClick={handleClose}
-                >
-                  Cancel
-                </Button>
-                {/*
                   <Button
                     type="button"
                     className="outline"
@@ -225,35 +205,12 @@ const handleEndDateChange = date => {
                   >
                     Reset
                   </Button>
-                  */}
                   <Button type="submit" disabled={isSubmitting}>
                     Submit
                   </Button>
                   {/* <DisplayFormikState {...props} /> */}
                 </DialogActions>
               </form>
-              <Snackbar
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'center',
-                }}
-                open={dateError}
-                autoHideDuration={6000}
-                onClose={() => setDateError(false)}
-                message={"Start date should be before end date."}
-                action={
-                  <React.Fragment>
-                    <Button color="secondary" size="small" onClick={() => setDateError(false)}>
-                      Fail
-                    </Button>
-
-                    <IconButton size="small" aria-label="close" color="inherit" onClick={() => setDateError(false)}>
-                      <CloseIcon fontSize="small" />
-                    </IconButton>
-                  </React.Fragment>
-                }
-              />
-              </div>
             );
           }}
         </Formik>

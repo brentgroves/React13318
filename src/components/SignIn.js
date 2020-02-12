@@ -67,7 +67,6 @@ const SignIn = ({
   authenticateIsSubmitting,
   ClearAuthenticateError,
   firstName,
-  srv,
   updateFirstName,
   isAuthenticated,
   isAdmin

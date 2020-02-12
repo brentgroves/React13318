@@ -150,11 +150,13 @@ function* handleSproc200206Create(action) {
   let tableNumber = nextTableNumber++;
   let tableName = "rpt" + md + tableNumber;
   console.log(tableName);
+  console.log(`startDate : ${action.startDate}, endDate: ${action.endDate}`)
 
   try {
 
     g_dispatch(actions.IsSubmitting(true))
     // DATA OR PARAM ????
+
     var res = yield g_services.service("sproc200206").create({
         tableName: tableName,
         startDate: action.startDate,

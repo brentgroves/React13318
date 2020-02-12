@@ -34,7 +34,6 @@ export default function VisualizationsList(params) {
   const classes = useStyles();
   const [openAdHocOEE, setOpenAdHocOEE] = React.useState(true);
   const [openFixedOEE, setOpenFixedOEE] = React.useState(true);
-  const [openSelectOEE, setOpenSelectOEE] = React.useState(true);
 
   const handleAdHocOEEClick = () => {
     setOpenAdHocOEE(!openAdHocOEE);
@@ -42,9 +41,6 @@ export default function VisualizationsList(params) {
 
   const handleFixedOEEClick = () => {
     setOpenFixedOEE(!openFixedOEE);
-  };
-  const handleSelectOEEClick = () => {
-    setOpenSelectOEE(!openSelectOEE);
   };
   const handleSproc200206Create = () => {
     Sproc200206Create("2020-02-01T00:00:00","2020-02-07T23:59:00");
@@ -61,16 +57,33 @@ export default function VisualizationsList(params) {
   return (
     <List>
     <ListSubheader>Ad-Hoc</ListSubheader>
-    <Divider />
-    <ListItem button onClick={handleSproc200206Dialog}>
+    <ListItem button onClick={handleAdHocOEEClick}>
       <ListItemIcon>
         <SendIcon />
       </ListItemIcon>
-      <ListItemText primary="OEE by Part" />
-      </ListItem >
+      <ListItemText primary="OEE" />
+      {openAdHocOEE ? <ExpandLess /> : <ExpandMore />}
+    </ListItem>
+    <Collapse in={openAdHocOEE} timeout="auto" unmountOnExit>
+      <List component="div" disablePadding>
+        <ListItem button className={classes.nested} onClick={handleSproc200206Dialog} >
+          <ListItemIcon>
+            <StarBorder />
+          </ListItemIcon>
+          <ListItemText primary="Part" />
+        </ListItem>
+      </List>
+      <List component="div" disablePadding>
+        <ListItem button className={classes.nested}  >
+          <ListItemIcon>
+            <StarBorder />
+          </ListItemIcon>
+          <ListItemText primary="Selectable" />
+        </ListItem>
+      </List>
+    </Collapse>
     <Divider />
     <ListSubheader>Fixed</ListSubheader>
-    <Divider />
     <ListItem button onClick={handleFixedOEEClick}>
     <ListItemIcon>
       <SendIcon />
@@ -79,26 +92,6 @@ export default function VisualizationsList(params) {
       {openFixedOEE ? <ExpandLess /> : <ExpandMore />}
     </ListItem>
     <Collapse in={openFixedOEE} timeout="auto" unmountOnExit>
-      <List component="div" disablePadding>
-        <ListItem button className={classes.nested}  >
-          <ListItemIcon>
-            <StarBorder />
-          </ListItemIcon>
-          <ListItemText primary="OEE by Part" />
-        </ListItem>
-      </List>
-    </Collapse>
-    <Divider />
-    <ListSubheader>Select</ListSubheader>
-    <Divider />
-    <ListItem button onClick={handleSelectOEEClick}>
-    <ListItemIcon>
-      <SendIcon />
-    </ListItemIcon>
-      <ListItemText primary="Previous Week" />
-      {openSelectOEE ? <ExpandLess /> : <ExpandMore />}
-    </ListItem>
-    <Collapse in={openSelectOEE} timeout="auto" unmountOnExit>
       <List component="div" disablePadding>
         <ListItem button className={classes.nested}  >
           <ListItemIcon>
