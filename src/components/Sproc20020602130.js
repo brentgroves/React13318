@@ -169,14 +169,11 @@ export default function Sproc200206({ isAuthenticated,sprocName,tableName,total,
       <Table className={classes.table} aria-label="custom pagination table">
       <TableHead>
         <TableRow>
-          <TableCell>Week</TableCell>
-          <TableCell align="right">Part</TableCell>
-          <TableCell align="right">Workcenter</TableCell>
-          <TableCell align="right">Planned</TableCell>
-          <TableCell align="right">Actual</TableCell>
-          <TableCell align="right">Percent</TableCell>
-          <TableCell align="right">Scrap</TableCell>
-          <TableCell align="right">Downtime</TableCell>
+          <TableCell>Workcenter_Code</TableCell>
+          <TableCell align="right">Part_number</TableCell>
+          <TableCell align="right">Data_hour</TableCell>
+          <TableCell align="right">Hourly_planned_production_count</TableCell>
+          <TableCell align="right">Hourly_actual_production_count</TableCell>
         </TableRow>
       </TableHead>
 
@@ -187,15 +184,12 @@ export default function Sproc200206({ isAuthenticated,sprocName,tableName,total,
           ).map(row => (
             <TableRow key={row.ID}>
               <TableCell component="th" scope="row">
-                {row.start_week}
+                {row.Workcenter_Code}
               </TableCell>
-              <TableCell align="right">{row.part_number}</TableCell>
-              <TableCell align="right">{row.workcenter_code}</TableCell>
-              <TableCell align="right">{row.planned_production_count}</TableCell>
-              <TableCell align="right">{row.actual_production_count}</TableCell>
-              <TableCell align="right">{row.actual_vrs_planned_percent}</TableCell>
-              <TableCell align="right">{row.scrap_count}</TableCell>
-              <TableCell align="right">{row.downtime_minutes}</TableCell>
+              <TableCell align="right">{row.Part_number}</TableCell>
+              <TableCell align="right">{row.Data_hour}</TableCell>
+              <TableCell align="right">{row.Hourly_planned_production_count}</TableCell>
+              <TableCell align="right">{row.Hourly_actual_production_count}</TableCell>
             </TableRow>
           ))}
 
